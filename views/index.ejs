@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>London Underground Journey Planner!</title>
+
+		<link rel="stylesheet" href="../public/styles/styles.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap"
+			rel="stylesheet" />
+	</head>
+	<body>
+		<nav class="navigation-bar">
+			<div id="top">
+				<a href="/"
+					><img
+						src="../public/images/png/logo-no-background.png"
+						alt="logo"
+						width="350"
+				/></a>
+				<ul id="nav-bar">
+					<li><a href="/">Home</a></li>
+					<li><a href="/about">About</a></li>
+					<li><a href="/contact">Contact</a></li>
+				</ul>
+			</div>
+		</nav>
+		<main class="main-page">
+			<div id="center-box">
+				<h1>Plan my journey</h1>
+				<form action="/transport-details" method="post">
+					<input
+						type="text"
+						name="departure"
+						id="searchQuery1"
+						class="searchInput"
+						placeholder="Departing from" />
+					<ul id="suggestions1"></ul>
+					<input
+						type="text"
+						name="destination"
+						id="searchQuery2"
+						class="searchInput"
+						placeholder="Arriving at" />
+					<ul id="suggestions2"></ul>
+					<div id="date-time-selector">
+						<input
+							type="date"
+							name="date"
+							id="dateQuery"
+							placeholder="Date (YYYY/MM/DD)" />
+						<input
+							type="time"
+							name="time"
+							id="timeQuery"
+							placeholder="Time (HH:mm)" />
+					</div>
+					<div id="button-line">
+						<input
+							type="number"
+							name="passengers"
+							id="passengerQuery"
+							placeholder="Number of travellers" />
+						<button type="submit">Check trains</button>
+					</div>
+					<script src="/scripts/dynamic.js"></script>
+				</form>
+			</div>
+		</main>
+
+		<footer class="footer">
+			<div class="row">
+				<div></div>
+				<div class="image-div">
+					<div class="div-row">
+						<img
+							src="../public/images/png/logo-no-background.png"
+							alt="logo"
+							height="100" />
+					</div>
+					<div class="links-div">
+						<h3>Useful Links</h3>
+						<ul>
+							<li>
+								<a href="#">Home</a>
+							</li>
+							<li>
+								<a href="#">About</a>
+							</li>
+							<li>
+								<a href="#">Contact</a>
+							</li>
+							<li>
+								<a href="#">FAQs</a>
+							</li>
+							<li>
+								<a href="#">Features</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div>
+					<form>
+						<h3>Subscribe to our newsletter</h3>
+						<p><strong>Monthly digest of what's new and exciting from us.</strong></p>
+						<div>
+							
+							<input id="newsletter1" type="text" placeholder="Email address" />
+							<button type="button">Subscribe</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div>
+				<p>© 2023 Company, Inc. All rights reserved.</p>
+				<ul>
+					<li>
+						<a href="#">Facebook logo</a>
+					</li>
+					<li>
+						<a href="#">Instagram logo</a>
+					</li>
+					<li>
+						<a href="#">Twitter logo</a>
+					</li>
+					<li>
+						<a href="#">Github logo</a>
+					</li>
+				</ul>
+			</div>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,238 @@
+/* Header and nav section */
+body {
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#top {
+    display: flex;
+    height: 150px;
+    /* padding-top: 0; */
+    /* margin-top: 0; */
+    justify-content: space-between;
+    background-color: green;
+}
+
+#nav-bar {
+    display: flex;
+    /* height: 100px; */
+    background-color: green;
+    justify-content: flex-end;
+    color: white;
+    align-items: center;
+}
+
+#nav-bar li {
+    padding-right: 50px;
+    list-style: none;
+}
+
+#nav-bar li a {
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+#nav-bar li a:hover {
+    text-decoration: underline;
+}
+
+/* Main body section */
+.main-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url("https://images.unsplash.com/photo-1568820577012-d581e7debd21?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80");
+    background-repeat: no-repeat;
+    height: 600px;
+    background-size: cover;
+    /* background-attachment: fixed; */
+    color: white
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+#center-box {
+    background-color: white;
+    width: 300px;
+    height: 250px;
+    padding: 0 50px 50px 50px;
+    border-radius: 10px;
+    border-top: 50px solid grey;
+    margin-top: 0px;
+}
+
+h1 {
+    padding-top: 0;
+    margin-top: -40px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+input {
+    height: 40px;
+    border: 0.5px solid rgb(233, 225, 225);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+input::placeholder {
+    font-size: 15px;
+}
+
+input:focus {
+    outline: 2px solid green;
+    z-index: 1;
+}
+
+/* input[name="departure"] {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+} */
+
+#date-time-selector {
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+}
+
+#date-time-selector input {
+    width: 140px
+}
+
+#button-line {
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+}
+
+#button-line input {
+    width: 140px
+}
+
+/* #date-time-selector input::placeholder {
+    font-size: 15px;
+} */
+
+/* input[name="destination"] {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+} */
+
+button {
+    background-color: green;
+    color: white;
+    border-radius: 50px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    width: 140px;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: rgb(3, 102, 3);
+}
+
+/* Style for suggestions list */
+#suggestions1 {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    background-color: #f1f1f1;
+    /* border: 1px solid #ccc; */
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#suggestions1 li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#suggestions1 li:hover {
+    background-color: #ddd;
+}
+
+/* Style for suggestions list 2*/
+#suggestions2 {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    background-color: #f1f1f1;
+    /* border: 1px solid #ccc; */
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#suggestions2 li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+#suggestions2 li:hover {
+    background-color: #ddd;
+}
+
+/* Style for footer */
+footer {
+    font-family: 'Raleway', sans-serif;
+    background-color: rgb(218, 215, 215)
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    justify-content: space-around;
+}
+
+
+.image-div {
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+}
+
+.links-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.div-row {
+    display: flex;
+    /* justify-content: center; */
+    justify-content: space-evenly
+}
+
+.links-div li {
+    list-style: none;
+    text-decoration: none;
+    padding-bottom: 10px;
+}
+
+.links-div li a {
+    all: unset;
+    cursor: pointer;
+    text-align: left;
+    padding: 0px;
+    margin: -35px;
+}
+
+.links-div li a:hover {
+    text-decoration: underline;
+}
+
+.div-row img {
+    padding-top: 50px;
+    padding-right: 150px;
+}
