@@ -11,13 +11,13 @@ body {
     /* padding-top: 0; */
     /* margin-top: 0; */
     justify-content: space-between;
-    background-color: green;
+    background-color: rgb(74, 189, 74);
 }
 
 #nav-bar {
     display: flex;
     /* height: 100px; */
-    background-color: green;
+    background-color: rgb(74, 189, 74);
     justify-content: flex-end;
     color: white;
     align-items: center;
@@ -49,7 +49,7 @@ body {
     height: 600px;
     background-size: cover;
     /* background-attachment: fixed; */
-    color: white
+    color: white;
 }
 
 form {
@@ -65,6 +65,7 @@ form {
     border-radius: 10px;
     border-top: 50px solid grey;
     margin-top: 0px;
+    /* box-shadow: 10px 10px rgba(0, 0, 0, 0.2) */
 }
 
 h1 {
@@ -86,7 +87,7 @@ input::placeholder {
 }
 
 input:focus {
-    outline: 2px solid green;
+    outline: 2px solid rgb(74, 189, 74);
     z-index: 1;
 }
 
@@ -125,7 +126,7 @@ input:focus {
 } */
 
 button {
-    background-color: green;
+    background-color: rgb(74, 189, 74);
     color: white;
     border-radius: 50px;
     height: 40px;
@@ -137,7 +138,7 @@ button {
 }
 
 button:hover {
-    background-color: rgb(3, 102, 3);
+    background-color: rgb(58, 148, 58);
 }
 
 /* Style for suggestions list */
@@ -185,54 +186,49 @@ button:hover {
 }
 
 /* Style for footer */
+
 footer {
-    font-family: 'Raleway', sans-serif;
-    background-color: rgb(218, 215, 215)
+    background-color: rgb(218, 215, 215);
 }
 
-.row {
+#footer-first-level {
     display: flex;
     justify-content: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
+#useful-links {
+    display: flex;
+    flex-direction: column;
+}
 
-.image-div {
+#footer-first-level li {
+    all: unset;
+    display: flex;
+}
+
+#footer-first-level li a {
+    text-decoration: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-left: -40px;
+}
+
+#footer-first-level li a:hover {
+    text-decoration: underline;
+}
+
+#name-input {
     display: flex;
     justify-content: center;
     justify-content: space-between;
 }
 
-.links-div {
-    display: flex;
-    flex-direction: column;
-}
-
-.div-row {
-    display: flex;
-    /* justify-content: center; */
-    justify-content: space-evenly
-}
-
-.links-div li {
-    list-style: none;
-    text-decoration: none;
-    padding-bottom: 10px;
-}
-
-.links-div li a {
-    all: unset;
-    cursor: pointer;
-    text-align: left;
-    padding: 0px;
-    margin: -35px;
-}
-
-.links-div li a:hover {
-    text-decoration: underline;
-}
-
-.div-row img {
+#footer-first-level img {
     padding-top: 50px;
-    padding-right: 150px;
+}
+
+#social-media li{
+    all: unset;
+    padding-right: 20px;
 }

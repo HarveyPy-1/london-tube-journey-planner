@@ -72,66 +72,78 @@
 		</main>
 
 		<footer class="footer">
-			<div class="row">
-				<div></div>
-				<div class="image-div">
-					<div class="div-row">
-						<img
-							src="../public/images/png/logo-no-background.png"
-							alt="logo"
-							height="100" />
-					</div>
-					<div class="links-div">
-						<h3>Useful Links</h3>
-						<ul>
-							<li>
-								<a href="#">Home</a>
-							</li>
-							<li>
-								<a href="#">About</a>
-							</li>
-							<li>
-								<a href="#">Contact</a>
-							</li>
-							<li>
-								<a href="#">FAQs</a>
-							</li>
-							<li>
-								<a href="#">Features</a>
-							</li>
-						</ul>
-					</div>
+			<div id="footer-first-level">
+				<img
+					src="../public/images/png/logo-no-background.png"
+					alt="logo"
+					height="100" />
+				<div id="useful-links">
+					<h3>Useful Links</h3>
+					<ul>
+						<li>
+							<a href="/">Home</a>
+						</li>
+						<li>
+							<a href="/about">About</a>
+						</li>
+						<li>
+							<a href="/contact">Contact</a>
+						</li>
+						<li>
+							<a href="#">FAQs</a>
+						</li>
+						<li>
+							<a href="https://tfl.gov.uk/">Tfl website</a>
+						</li>
+					</ul>
 				</div>
 
-				<div>
-					<form>
-						<h3>Subscribe to our newsletter</h3>
-						<p><strong>Monthly digest of what's new and exciting from us.</strong></p>
-						<div>
-							
-							<input id="newsletter1" type="text" placeholder="Email address" />
-							<button type="button">Subscribe</button>
+				<form id="form">
+					<h3>Subscribe to our newsletter</h3>
+					<p>
+						<strong><em>Monthly digest of what's new and exciting from us</em></strong>
+					</p>
+					<div id="name-input">
+					<input
+						class="newsletter"
+						id="fName"
+						type="text"
+						name="fName"
+						placeholder="First Name" />
+					<input
+						class="newsletter"
+						id="lName"
+						type="text"
+						name="lName"
+						placeholder="Last Name" />
 						</div>
-					</form>
-				</div>
+					<input
+						class="newsletter"
+						id="email"
+						type="email"
+						placeholder="Email address" />
+					<button type="button">Subscribe</button>
+				</form>
 			</div>
 
-			<div>
+			<div class="copyright">
 				<p>© 2023 Company, Inc. All rights reserved.</p>
+				<div id="social-media">
 				<ul>
 					<li>
-						<a href="#">Facebook logo</a>
+						<a href="https://www.facebook.com/don4dolex"><img src="../public/images/icons/facebook-app-symbol.png" alt="fb-logo" width="20"></a>
 					</li>
 					<li>
-						<a href="#">Instagram logo</a>
+						<a href="https://www.https://www.instagram.com/harvey.dwg/"><img src="../public/images/icons/instagram.png" alt="instagram-logo" width="20"></a>
 					</li>
 					<li>
-						<a href="#">Twitter logo</a>
+						<a href="https://twitter.com/HARVEY_dwg"><img src="../public/images/icons/twitter.png" alt="twitter logo" width="20"></a>
 					</li>
 					<li>
-						<a href="#">Github logo</a>
+						<a href="https://github.com/HarveyPy-1"><img src="../public/images/icons/github.png" alt="github logo" width="20"></a>
 					</li>
 				</ul>
+				</div>
 			</div>
 		</footer>
 	</body>
