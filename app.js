@@ -49,6 +49,8 @@ app.post("/transport-details", (req, res) => {
 	}
 
 	const departureTime = convertTimeToHHmm(req.body.time);
+  const ejsTime = req.body.time;
+  const ejsDate = req.body.date;
 	const noOfPassengers = req.body.passengers;
 
 	console.log("Departure Date: ", departureDate);
@@ -113,20 +115,20 @@ app.post("/transport-details", (req, res) => {
 				const isDisrupted = tflData.journeys[0].legs[0].isDisrupted;
         console.log(isDisrupted)
 
-        // let disruptions;
-        // let plannedWorks;
+        let disruptions;
+        let plannedWorks;
 				if (isDisrupted === false) {
 					const disruptions = "No disruptions on route.";
 					const plannedWorks = "No planned works on route.";
-          console.log(disruptions);
-					console.log(plannedWorks);
+          // console.log(disruptions);
+					// console.log(plannedWorks);
 				} else {
 					const disruptions =
 						tflData.journeys[0].legs[0].disruptions[0].description;
 					const plannedWorks = tflData.journeys[0].legs[0].plannedWorks;
-					console.log(disruptions);
-					console.log(plannedWorks);
 				}
+        console.log(disruptions);
+				console.log(plannedWorks);
 
 				//TODO 7: COST
 				const fare = (((tflData.journeys[0].fare.totalCost) / 100) * noOfPassengers).toFixed(2);
@@ -137,7 +139,21 @@ app.post("/transport-details", (req, res) => {
 
 				// LOGIC FOR REDIRECTION
 				if (response.statusCode === 200) {
-					res.render("success");
+					res.render("transport-details", {
+            departure: departure,
+            destination: destination,
+            date: ejsDate,
+            time: ejsTime,
+            noOfPassengers: noOfPassengers,
+            route: route,
+            duration: duration,
+            departurePoint: departurePoint,
+            arrivalPoint: arrivalPoint,
+            stopPoints: stopPoints,
+            disruptions: disruptions,
+            plannedWorks: plannedWorks,
+            totalFare: fare
+          });
 				} else {
 					res.render("failure");
 				}
