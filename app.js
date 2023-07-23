@@ -41,6 +41,19 @@ app.post("/transport-details", (req, res) => {
 	// GET DEPARTURE AND DESTINATION VALUES FROM EJS FILE
 	const departure = req.body.departure;
 	const destination = req.body.destination;
+	const departureDate = req.body.date.replace(/-/g, "");
+
+	function convertTimeToHHmm(timeString) {
+		const [hours, minutes] = timeString.split(":");
+		return hours + minutes;
+	}
+
+	const departureTime = convertTimeToHHmm(req.body.time);
+	const noOfPassengers = req.body.passengers;
+
+	console.log("Departure Date: ", departureDate);
+	console.log("Departure Time: ", departureTime);
+	console.log("No. of passengers: ", noOfPassengers);
 
 	// START FUNCTION TO LOAD JSONDATA FILE
 	startApp().then((jsonData) => {
@@ -53,7 +66,7 @@ app.post("/transport-details", (req, res) => {
 		console.log(departureID, destinationID);
 
 		// API ENDPOINT
-		const url = `https://api.tfl.gov.uk/Journey/JourneyResults/${departureID}/to/${destinationID}?app_key=${API_KEY}`;
+		const url = `https://api.tfl.gov.uk/journey/journeyresults/${departureID}/to/${destinationID}?date=${departureDate}&time=${departureTime}&timeIs=departing&app_key=${API_KEY}`;
 
 		// MAKE HTTPS REQUEST TO ENDPOINT
 		const request = https.request(url, (response) => {
@@ -67,7 +80,7 @@ app.post("/transport-details", (req, res) => {
 
 			response.on("end", () => {
 				const tflData = JSON.parse(responseData);
-				// console.log(tflData);
+				console.log(tflData);
 
 				// TODO1: ROUTE BETWEEN TWO LINES. TELL USER THE ROUTE IF EXISTS
 				const route = tflData.journeys[0].legs[0].instruction.detailed;
@@ -98,10 +111,15 @@ app.post("/transport-details", (req, res) => {
 
 				// TODO6: DISRUPTIONS
 				const isDisrupted = tflData.journeys[0].legs[0].isDisrupted;
+        console.log(isDisrupted)
 
+        // let disruptions;
+        // let plannedWorks;
 				if (isDisrupted === false) {
 					const disruptions = "No disruptions on route.";
 					const plannedWorks = "No planned works on route.";
+          console.log(disruptions);
+					console.log(plannedWorks);
 				} else {
 					const disruptions =
 						tflData.journeys[0].legs[0].disruptions[0].description;
@@ -111,7 +129,7 @@ app.post("/transport-details", (req, res) => {
 				}
 
 				//TODO 7: COST
-				const fare = tflData.journeys[0].fare.totalCost / 100;
+				const fare = (((tflData.journeys[0].fare.totalCost) / 100) * noOfPassengers).toFixed(2);
 				console.log("Fare: ", fare);
 
 				// TODO 8: DEPARTURE TIME

@@ -33,24 +33,29 @@ function initializeAutocomplete(inputId, suggestionsId) {
 	readJsonData(jsonDataUrl)
 		.then((data) => {
 			jsonData = data;
+
+			searchInput.addEventListener("input", function (event) {
+				const searchTerm = event.target.value;
+				displaySuggestions(jsonData, searchTerm, suggestionsList);
+			});
+
+			document.addEventListener("click", function (event) {
+				const target = event.target;
+				if (target.matches(`#${suggestionsId} li`)) {
+					const suggestionText = target.textContent.trim();
+					searchInput.value = suggestionText;
+					suggestionsList.innerHTML = "";
+				}
+			});
+			document.addEventListener("keydown", function (event) {
+				if (event.key === "Escape") {
+					suggestionsList.innerHTML = "";
+				}
+			});
 		})
 		.catch((error) => {
 			console.error("Error:", error);
 		});
-
-	searchInput.addEventListener("input", function (event) {
-		const searchTerm = event.target.value;
-		displaySuggestions(jsonData, searchTerm, suggestionsList);
-	});
-
-	document.addEventListener("click", function (event) {
-		const target = event.target;
-		if (target.matches(`#${suggestionsId} li`)) {
-			const suggestionText = target.textContent.trim();
-			searchInput.value = suggestionText;
-			suggestionsList.innerHTML = "";
-		}
-	});
 }
 
 // Initialize the first input and suggestions list
