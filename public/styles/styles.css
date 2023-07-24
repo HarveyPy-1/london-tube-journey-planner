@@ -136,9 +136,7 @@ input[type="time"] {
     justify-content: space-between;
 }
 
-#button-line input {
-    width: 140px
-}
+
 
 /* #date-time-selector input::placeholder {
     font-size: 15px;
@@ -159,12 +157,20 @@ button {
     border: none;
     width: 140px;
     font-size: 14px;
+    margin-left: 15px;
 }
 
 button:hover {
     background-color: rgb(58, 148, 58);
 }
 
+#box-and-arrow {
+    display: flex;
+}
+
+#box-and-arrow img{
+    margin-top: 25px;
+}
 /* Style for suggestions list */
 #suggestions1 {
     list-style: none;
