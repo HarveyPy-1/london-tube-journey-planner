@@ -91,6 +91,21 @@ input:focus {
     z-index: 1;
 }
 
+select {
+    height: 40px;
+    width: 145px;
+    border: 0.5px solid rgb(233, 225, 225);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight:lighter
+}
+
+select:focus {
+    outline: 2px solid rgb(74, 189, 74);
+    z-index: 1;
+}
+
 /* input[name="departure"] {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -103,11 +118,15 @@ input:focus {
 }
 
 #date-time-selector input {
-    width: 140px
+    width: 140px;
 }
 
-input[type="date"]:value {
-    font-size: 40px;
+input[type="date"] {
+    font-size: 14px;
+}
+
+input[type="time"] {
+    font-size: 14px;
 }
 
 
@@ -237,7 +256,7 @@ footer {
     padding-top: 50px;
 }
 
-#social-media li{
+#social-media li {
     all: unset;
     padding-right: 20px;
 }

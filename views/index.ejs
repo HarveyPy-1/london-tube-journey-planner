@@ -30,11 +30,10 @@
 					placeholder="Time (HH:mm)" />
 			</div>
 			<div id="button-line">
-				<input
-					type="number"
-					name="passengers"
-					id="passengerQuery"
-					placeholder="Number of travelers" />
+				<select name="timeOptions" id="timeOptions">
+					<option value="departing">Departing after</option>
+					<option value="arriving">Arriving before</option>
+				</select>
 				<button type="submit">Check trains</button>
 			</div>
 			<script src="/scripts/dynamic.js"></script>

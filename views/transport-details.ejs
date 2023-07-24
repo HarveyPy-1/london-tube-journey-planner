@@ -1,14 +1,29 @@
 <%- include("partials/header.ejs") %>
 <main>
-<h1>Your journey details</h1>
-<h3>Departure Station: <em><%= departure %></em></h3>
-<h3>Arrival Station: <em><%= destination %></em></h3>
-<h3>Departure Date: <em><%= date %></em></h3>
-<h3>Departure Time: <em><%= time %>hrs</em></h3>
-<h3>No. of passengers: <em><%= noOfPassengers %></em></h3>
-<h3>Route: <em><%= route %></em></h3>
-<h3>Journey duration: <em><%= duration %>minutes</em></h3>
-<h3>Departure Point: <em><%= departurePoint%></em></h3>
-<h3>Arrival Point: <em><%= arrivalPoint %></em></h3>
+	<h1>Your journey details</h1>
+	<div>
+		<h3>Departure Station: <em><%= departure %></em></h3>
+		<img src="../public/images/png/icons8-arrow-50.png" alt="arrow" />
+		<h3>Arrival Station: <em><%= destination %></em></h3>
+	</div>
+	<h2>Result summary</h2>
+	<h3>Departure Date: <em><%= date %></em></h3>
+	<h3>Departure Time: <em><%= departureTime %>hrs</em></h3>
+    <h3>Arrival Time: <em><%= arrivalTime %>hrs</em></h3>
+    <h3>Journey duration: <em><%= duration %>minutes</em></h3>
+	<h3>Route: <em><%= route %></em></h3>
+	<h3>Departure Point: <em><%= departurePoint%></em></h3>
+	<h3>Arrival Point: <em><%= arrivalPoint %></em></h3>
+	<h3>
+		Stop points: <% for (let x = 0; x < stopPoints.length; x++) { %> <%=
+		stopPoints.length %>
+		<ul>
+			<li><%= stopPoints[x].name %></li>
+		</ul>
+		<% } %>
+	</h3>
+	<h3>Disruptions: <em><%= disruptions%></em></h3>
+    <h3>Planned works: <em><%= plannedWorks%></em></h3>
+    <h3>Amount: <em>£<%= totalFare%></em></h3>
 </main>
 <%- include("partials/footer.ejs") %>
