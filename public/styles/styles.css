@@ -106,6 +106,10 @@ select:focus {
     z-index: 1;
 }
 
+select:hover {
+    cursor: pointer;
+}
+
 /* input[name="departure"] {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -265,4 +269,125 @@ footer {
 #social-media li {
     all: unset;
     padding-right: 20px;
+}
+
+.copyright {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Transport details page */
+
+#results-page {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#line-img {
+    margin-top: -30px;
+    margin-bottom: 40px;
+}
+
+
+
+#results-page h1 {
+    padding-bottom: none;
+    margin-bottom: none;
+}
+#results-top {
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-evenly;
+    width: 100%;
+    margin-bottom: none;
+}
+
+.station {
+    width: 250px;
+}
+
+/* #departure-station {
+    margin-right: 50px;
+}
+
+#arrival-station {
+    margin-left: 50px;
+} */
+
+em {
+    font-weight: lighter;
+}
+
+/* Style the table */
+table {
+    width: 800px;
+    border-collapse: collapse;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    border: none;
+}
+
+/* Style the table rows */
+tr:nth-child(odd) {
+    background-color: rgb(194, 193, 193);
+    /* Light color for odd rows */
+}
+
+tr:nth-child(even) {
+    background-color: #ffffff;
+    /* White color for even rows */
+}
+
+/* Style the table cells */
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#top-cell {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+#bottom-cell {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+#bottom-buttons {
+    display: flex;
+    width: 100%;
+    align-items: left;
+    margin-left: 160px;
+    margin-bottom: 50px;
+}
+
+#bottom-buttons button {
+    background-color: blue;
+    border-radius: 5px;
+}
+
+#bottom-buttons button:hover {
+    background-color: rgb(3, 3, 145);
+}
+
+#bottom-buttons #back-button {
+    background-color: red;
+    border-radius: 5px;
+}
+
+#bottom-buttons #back-button:hover {
+    background-color: rgb(161, 2, 2);
+}
+
+#bottom-buttons #back-button a {
+    text-decoration: none;
+    color: white;
+}
+
+.fa {
+    padding-right: 10px;
 }

@@ -148,7 +148,10 @@ app.post("/transport-details", (req, res) => {
 				console.log("Fare: ", fare);
 
 				// TODO 8: DEPARTURE TIME
-				// Create input for departure time and date in the format: yyyymmdd and HHmm. Add more parameters to the API URL in this format: https://api.tfl.gov.uk/journey/journeyresults/{from}/to/{to?date={20230810}&time={0930}&timeIs=departing&app_key=ca33a01de1e44f28a4ffd7e01eaddfe5
+				// Create input for departure time and date in the format: yyyymmdd and HHmm.
+
+				// TODO 9: TODAY'S DATE
+				const currentDate = new Date();
 
 				// LOGIC FOR REDIRECTION
 				if (response.statusCode === 200) {
@@ -166,6 +169,7 @@ app.post("/transport-details", (req, res) => {
 						disruptions: disruptions,
 						plannedWorks: plannedWorks,
 						totalFare: fare,
+            currentDate: currentDate,
 					});
 				} else {
 					res.render("failure");
