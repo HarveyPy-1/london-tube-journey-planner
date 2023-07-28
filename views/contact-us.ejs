@@ -1,0 +1,26 @@
+<%- include("partials/header.ejs") %>
+<main class="contact-form">
+	<head id="hero">
+		<img
+			id="hero-image"
+			src="https://plus.unsplash.com/premium_photo-1682309572625-791e25352998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1212&q=800"
+			alt="hero-image" />
+		<div id="hero-text">Contact Us</div>
+	</head>
+	<div class="contact-us-form">
+        <h1>Send us a message!</h1>
+		<form action="/contact-us" method="post">
+			
+			<input type="text" id="firstName" name="firstName" placeholder="First Name" required />
+
+			<input type="text" id="lastName" name="lastName" placeholder="Last Name" required />
+
+			<input type="email" id="email" name="email" placeholder="Email" required />
+
+			<textarea id="message" name="message" placeholder="Enter your message here..."></textarea>
+
+			<button type="submit" class="btn"><i class="fa fa-envelope"></i>Send Message</button>
+		</form>
+	</div>
+</main>
+<%- include("partials/footer.ejs") %>

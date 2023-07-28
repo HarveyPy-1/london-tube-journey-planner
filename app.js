@@ -2,6 +2,7 @@
 const express = require("express");
 const https = require("https");
 const bodyParser = require("body-parser");
+const nodemailer = require("nodemailer");
 
 //IMPORT CONVERTED FILE(TO OBJECT) FROM (FILECONVERSION.JS)
 const { readJsonFile } = require("./fileConversion.js");
@@ -29,6 +30,7 @@ const API_KEY = process.env.API_KEY;
 // LOAD SOME MIDDLEWARE
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(express.json());
 app.set("view engine", "ejs");
 
 // HOME PAGE
@@ -36,13 +38,14 @@ app.get("/", (req, res) => {
 	res.render("index");
 });
 
-// HOME PAGE POST REQUEST
+// PAGE TO DISPLAY SEARCH RESULTS
 app.post("/transport-details", (req, res) => {
 	// GET DEPARTURE AND DESTINATION VALUES FROM EJS FILE
 	const departure = req.body.departure;
 	const destination = req.body.destination;
 	const departureDate = req.body.date.replace(/-/g, "");
 
+	// CONVERT TIME INTO HH:MM
 	function formatTime(dateTimeString) {
 		const dateTime = new Date(dateTimeString);
 		const hours = dateTime.getHours();
@@ -53,6 +56,7 @@ app.post("/transport-details", (req, res) => {
 		return formattedTime;
 	}
 
+	// FORMAT TIME INTO HHMM FOR USE IN API ENDPOINT
 	function convertTimeToHHmm(timeString) {
 		const [hours, minutes] = timeString.split(":");
 		return hours + minutes;
@@ -145,6 +149,7 @@ app.post("/transport-details", (req, res) => {
 
 				//TODO 7: COST
 				const fare = (tflData.journeys[0].fare.totalCost / 100).toFixed(2);
+
 				console.log("Fare: ", fare);
 
 				// TODO 8: DEPARTURE TIME
@@ -169,7 +174,7 @@ app.post("/transport-details", (req, res) => {
 						disruptions: disruptions,
 						plannedWorks: plannedWorks,
 						totalFare: fare,
-            currentDate: currentDate,
+						currentDate: currentDate,
 					});
 				} else {
 					res.render("failure");
@@ -198,6 +203,55 @@ app.post("/transport-details", (req, res) => {
 			return null;
 		}
 	}
+});
+
+app.get("/about-us", (req, res) => {
+	res.render("about-us");
+});
+
+app.get("/contact-us", (req, res) => {
+	res.render("contact-us");
+});
+
+app.post("/contact-us", (req, res) => {
+	// GET VARIABLES FROM FORM
+	const firstName = req.body.firstName;
+	const lastName = req.body.lastName;
+	const email = req.body.email;
+	const message = req.body.message;
+
+	//CREATE TRANSPORTER OBJECT FROM MODULE
+	const transporter = nodemailer.createTransport({
+		service: "Gmail",
+		auth: {
+			user: process.env.EMAIL_USERNAME,
+			password: process.env.EMAIL_PASSWORD,
+		},
+	});
+	// GENERATE THE EMAIL CONTENT
+	const mailOptions = {
+		from: "Mailer Contact don4dolex@yahoo.com",
+		to: process.env.EMAIL_USERNAME,
+		subject: "New Contact Form Submission",
+		html: `
+        <h3>New Contact Form Submission</h3>
+        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong> ${message}</p>
+      `,
+	};
+
+	// SEND EMAIL
+	let messageStatus;
+	transporter.sendMail(mailOptions, (error, info) => {
+		if (error) {
+			console.log("Error sending email: ", error);
+			res.status(500).json({ error: "Error sending email" });
+		} else {
+			console.log("Email sent: ", info.response);
+			res.json({ success: true });
+		}
+	});
 });
 
 app.listen(PORT, () => {
