@@ -21,6 +21,12 @@ async function startApp() {
 
 // START THE MODULE FOR ENVIRONMENT VARIABLES
 require("dotenv").config();
+const newsletterAPI = process.env.API_KEY_2
+const newsletterAudienceID = process.env.AUDIENCE_ID
+// export {
+//   newsletterAPI,
+//   newsletterAudienceID,
+// }
 
 // DECLARE SOME NECESSARY CONSTANTS
 const PORT = process.env.PORT || 3000;
@@ -210,7 +216,8 @@ app.get("/about-us", (req, res) => {
 });
 
 app.get("/contact-us", (req, res) => {
-	res.render("contact-us");
+	var messageStatus = 0;
+	res.render("contact-us", { messageStatus: messageStatus });
 });
 
 app.post("/contact-us", (req, res) => {
@@ -220,18 +227,20 @@ app.post("/contact-us", (req, res) => {
 	const email = req.body.email;
 	const message = req.body.message;
 
-	//CREATE TRANSPORTER OBJECT FROM MODULE
+	// MAILTRAP DETAILS IN TRANSPORTER OBJECT FROM NODEMAILER
 	const transporter = nodemailer.createTransport({
-		service: "Gmail",
+		host: "sandbox.smtp.mailtrap.io",
+		port: 2525,
 		auth: {
 			user: process.env.EMAIL_USERNAME,
-			password: process.env.EMAIL_PASSWORD,
+			pass: process.env.EMAIL_PASSWORD,
 		},
 	});
+
 	// GENERATE THE EMAIL CONTENT
 	const mailOptions = {
-		from: "Mailer Contact don4dolex@yahoo.com",
-		to: process.env.EMAIL_USERNAME,
+		from: "Website User website.user@yahoo.com",
+		to: "website.user@yahoo.com",
 		subject: "New Contact Form Submission",
 		html: `
         <h3>New Contact Form Submission</h3>
@@ -242,15 +251,20 @@ app.post("/contact-us", (req, res) => {
 	};
 
 	// SEND EMAIL
-	let messageStatus;
+	let messageStatus = 0;
 	transporter.sendMail(mailOptions, (error, info) => {
 		if (error) {
 			console.log("Error sending email: ", error);
-			res.status(500).json({ error: "Error sending email" });
+			// res.status(500).json({ error: "Error sending email" });
+			messageStatus = -1;
+			res.render("contact-us", { messageStatus: messageStatus });
 		} else {
 			console.log("Email sent: ", info.response);
-			res.json({ success: true });
+			// res.json({ success: true });
+			messageStatus = 1;
+			res.render("contact-us", { messageStatus: messageStatus });
 		}
+		console.log("Message Status: " + messageStatus);
 	});
 });
 
