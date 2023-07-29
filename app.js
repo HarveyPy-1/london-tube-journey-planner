@@ -21,12 +21,6 @@ async function startApp() {
 
 // START THE MODULE FOR ENVIRONMENT VARIABLES
 require("dotenv").config();
-const newsletterAPI = process.env.API_KEY_2
-const newsletterAudienceID = process.env.AUDIENCE_ID
-// export {
-//   newsletterAPI,
-//   newsletterAudienceID,
-// }
 
 // DECLARE SOME NECESSARY CONSTANTS
 const PORT = process.env.PORT || 3000;
@@ -41,9 +35,64 @@ app.set("view engine", "ejs");
 
 // HOME PAGE
 app.get("/", (req, res) => {
-	res.render("index");
+	var mailChimp = 0;
+	res.render("index", { mailChimp: mailChimp });
 });
 
+// HANDLE POST REQUEST FOR HOME PAGE (NEWSLETTER SUBSCRIPTION)
+app.post("/", (req, res) => {
+	const firstName = req.body.fName;
+	const lastName = req.body.lName;
+	const email = req.body.newsEmail;
+	const list_id = process.env.AUDIENCE_ID;
+	const server_no = "21";
+
+	const url = `https://us${server_no}.api.mailchimp.com/3.0/lists/${list_id}`;
+
+	const options = {
+		method: "POST",
+		auth: process.env.API_KEY_2,
+	};
+
+	const data = {
+		members: [
+			{
+				email_address: email,
+				status: "subscribed",
+				merge_fields: {
+					FNAME: firstName,
+					LNAME: lastName,
+				},
+			},
+		],
+	};
+
+	const jsonData = JSON.stringify(data);
+
+	let mailChimp = 0;
+	const request = https.request(url, options, (response) => {
+		if (response.statusCode === 200) {
+			mailChimp = 1;
+			res.render("index", { mailChimp: mailChimp });
+		} else {
+			mailChimp = -1;
+			res.render("index", { mailChimp: mailChimp });
+		}
+		response.on("data", (data) => {
+			console.log(JSON.parse(data));
+		});
+	});
+	request.write(jsonData);
+	request.end();
+
+	console.log(firstName, lastName, email, list_id);
+});
+
+// GENERAL FAILURE PAGE
+app.get("/failure", (req, res) => {
+	var mailChimp = 0;
+	res.render("failure", { mailChimp: mailChimp });
+});
 // PAGE TO DISPLAY SEARCH RESULTS
 app.post("/transport-details", (req, res) => {
 	// GET DEPARTURE AND DESTINATION VALUES FROM EJS FILE
@@ -116,11 +165,6 @@ app.post("/transport-details", (req, res) => {
 				const stopPoints = tflData.journeys[0].legs[0].path.stopPoints;
 				// console.log(stopPoints)
 
-				// USE THIS IN THE EJS FILE
-				// for (let x = 0; x < stopPoints.length; x++) {
-				//   console.log(stopPoints[x].name);
-				// }
-
 				//TODO3: DURATION
 				const duration = tflData.journeys[0].duration;
 				console.log("Duration: ", duration);
@@ -163,8 +207,9 @@ app.post("/transport-details", (req, res) => {
 
 				// TODO 9: TODAY'S DATE
 				const currentDate = new Date();
+				var mailChimp = 0;
 
-				// LOGIC FOR REDIRECTION
+				// LOGIC FOR PAGE RESPONSE REDIRECTION
 				if (response.statusCode === 200) {
 					res.render("transport-details", {
 						departure: departure,
@@ -181,9 +226,10 @@ app.post("/transport-details", (req, res) => {
 						plannedWorks: plannedWorks,
 						totalFare: fare,
 						currentDate: currentDate,
+						mailChimp: mailChimp,
 					});
 				} else {
-					res.render("failure");
+					res.render("failure", { mailChimp: mailChimp });
 				}
 			});
 		});
@@ -191,7 +237,7 @@ app.post("/transport-details", (req, res) => {
 		// HANDLE ERROR
 		request.on("error", (error) => {
 			console.error("Error in API request", error);
-			res.render("failure");
+			res.render("failure", { mailChimp: mailChimp });
 		});
 
 		request.end();
@@ -211,21 +257,30 @@ app.post("/transport-details", (req, res) => {
 	}
 });
 
+// CREATE 'ABOUT US' ROUTE
 app.get("/about-us", (req, res) => {
-	res.render("about-us");
+	var mailChimp = 0;
+	res.render("about-us", { mailChimp: mailChimp });
 });
 
+// CREATE 'CONTACT US' ROUTE (GET)
 app.get("/contact-us", (req, res) => {
+	var mailChimp = 0;
 	var messageStatus = 0;
-	res.render("contact-us", { messageStatus: messageStatus });
+	res.render("contact-us", {
+		messageStatus: messageStatus,
+		mailChimp: mailChimp,
+	});
 });
 
+// CREATE 'CONTACT US' ROUTE (POST) TO SEND EMAILS
 app.post("/contact-us", (req, res) => {
 	// GET VARIABLES FROM FORM
 	const firstName = req.body.firstName;
 	const lastName = req.body.lastName;
 	const email = req.body.email;
 	const message = req.body.message;
+	var mailChimp = 0;
 
 	// MAILTRAP DETAILS IN TRANSPORTER OBJECT FROM NODEMAILER
 	const transporter = nodemailer.createTransport({
@@ -251,23 +306,30 @@ app.post("/contact-us", (req, res) => {
 	};
 
 	// SEND EMAIL
-	let messageStatus = 0;
+	let messageStatus = 0; // Variable to determine page content
 	transporter.sendMail(mailOptions, (error, info) => {
 		if (error) {
 			console.log("Error sending email: ", error);
 			// res.status(500).json({ error: "Error sending email" });
 			messageStatus = -1;
-			res.render("contact-us", { messageStatus: messageStatus });
+			res.render("contact-us", {
+				messageStatus: messageStatus,
+				mailChimp: mailChimp,
+			});
 		} else {
 			console.log("Email sent: ", info.response);
 			// res.json({ success: true });
 			messageStatus = 1;
-			res.render("contact-us", { messageStatus: messageStatus });
+			res.render("contact-us", {
+				messageStatus: messageStatus,
+				mailChimp: mailChimp,
+			});
 		}
-		console.log("Message Status: " + messageStatus);
+		console.log("Message Status: ", messageStatus);
 	});
 });
 
+// CREATE LOCAL SERVER PORT
 app.listen(PORT, () => {
 	console.log(`Server started on port ${PORT}...`);
 });

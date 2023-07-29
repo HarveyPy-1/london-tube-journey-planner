@@ -73,8 +73,7 @@
 			<tr>
 				<td>
 					<h3>
-						Stop Points: <% for (let x = 0; x < stopPoints.length; x++) { %> <%=
-						stopPoints.length %>
+						Stop Points: <% for (let x = 0; x < stopPoints.length; x++) { %> 
 						<ul>
 							<li><%= stopPoints[x].name %></li>
 						</ul>
@@ -105,7 +104,7 @@
 	</section>
 	<div id="bottom-buttons">
 		<button type="button" id="back-button"><a href="/">Go Back</a></button>
-		<button type="button" class="btn"><i class="fa fa-print"></i>Print</button>
+		<button type="button" class="btn" onclick="window.print()"><i class="fa fa-print"></i>Print</button>
 		<button type="button" class="btn"><i class="fa fa-envelope"></i>Email</button>
 	</div>
 </main>
