@@ -1,7 +1,8 @@
 <%- include("partials/header.ejs") %>
 <main id="results-page">
 	<h1>Your journey details</h1>
-	<img id="line-img"
+	<img
+		id="line-img"
 		src="/images/png/horizontal-rule.png"
 		alt="horizontal-line"
 		width="800px"
@@ -73,7 +74,7 @@
 			<tr>
 				<td>
 					<h3>
-						Stop Points: <% for (let x = 0; x < stopPoints.length; x++) { %> 
+						Stop Points: <% for (let x = 0; x < stopPoints.length; x++) { %>
 						<ul>
 							<li><%= stopPoints[x].name %></li>
 						</ul>
@@ -104,8 +105,39 @@
 	</section>
 	<div id="bottom-buttons">
 		<button type="button" id="back-button"><a href="/">Go Back</a></button>
-		<button type="button" class="btn" onclick="window.print()"><i class="fa fa-print"></i>Print</button>
-		<button type="button" class="btn"><i class="fa fa-envelope"></i>Email</button>
+		<button type="button" class="btn" onclick="window.print()">
+			<i class="fa fa-print"></i>Print
+		</button>
+		<button type="button" class="btn" id="convertBtn">
+			<i class="fa fa-download"></i>Download PDF
+		</button>
 	</div>
 </main>
+<script>
+	// Add click event listener to the button
+	document.getElementById("convertBtn").addEventListener("click", async () => {
+		try {
+			// Send an HTTP GET request to the server route to trigger PDF conversion and download
+			const response = await fetch("/convertToPDF");
+			if (response.ok) {
+				//Convert the response to a blob and create a temporary URL to download the PDF
+				const pdfBlob = await response.blob();
+				const pdfURL = URL.createObjectURL(pdfBlob);
+
+				// Create a temporary anchor element to trigger the download
+				const downloadLink = document.createElement("a");
+				downloadLink.href = pdfURL;
+				downloadLink.download = "journey-itinerary.pdf";
+				downloadLink.click();
+
+				// Clean up the temporary URL
+				URL.revokeObjectURL(pdfURL);
+			} else {
+				console.error("Error:", response.status, response.statusText);
+			}
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	});
+</script>
 <%- include("partials/footer.ejs") %>

@@ -3,6 +3,7 @@ const express = require("express");
 const https = require("https");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
+const puppeteer = require("puppeteer");
 
 //IMPORT CONVERTED FILE(TO OBJECT) FROM (FILECONVERSION.JS)
 const { readJsonFile } = require("./fileConversion.js");
@@ -88,19 +89,20 @@ app.post("/", (req, res) => {
 	console.log(firstName, lastName, email, list_id);
 });
 
-// GENERAL FAILURE PAGE
+// GENERAL FAILURE REDIRECT PAGE
 app.get("/failure", (req, res) => {
 	var mailChimp = 0;
 	res.render("failure", { mailChimp: mailChimp });
 });
-// PAGE TO DISPLAY SEARCH RESULTS
+
+// PAGE TO DISPLAY JOURNEY ITINERARY
 app.post("/transport-details", (req, res) => {
 	// GET DEPARTURE AND DESTINATION VALUES FROM EJS FILE
 	const departure = req.body.departure;
 	const destination = req.body.destination;
 	const departureDate = req.body.date.replace(/-/g, "");
 
-	// CONVERT TIME INTO HH:MM
+	// CONVERT TIME INTO HH:MM TO DISPLAY ON WEBSITE
 	function formatTime(dateTimeString) {
 		const dateTime = new Date(dateTimeString);
 		const hours = dateTime.getHours();
@@ -129,7 +131,7 @@ app.post("/transport-details", (req, res) => {
 	startApp().then((jsonData) => {
 		// console.log(jsonData);
 
-		//GET NAPTANID VARIABLES FROM USER INPUT
+		// GET NAPTANID VARIABLES FROM USER INPUT
 		const departureID = getNaptanIDByCommonName(departure, jsonData);
 		const destinationID = getNaptanIDByCommonName(destination, jsonData);
 
@@ -152,6 +154,7 @@ app.post("/transport-details", (req, res) => {
 				const tflData = JSON.parse(responseData);
 				console.log(tflData);
 
+				// GET REQUIRED DATA FROM THE TFLDATA AND ASSIGN TO VARIABLES
 				let tflDepartureTime = tflData.journeys[0].startDateTime;
 				let tflArrivalTime = tflData.journeys[0].arrivalDateTime;
 				const ejsDepartureTime = formatTime(tflDepartureTime);
@@ -188,12 +191,11 @@ app.post("/transport-details", (req, res) => {
 				if (isDisrupted === false) {
 					disruptions = "No disruptions on route.";
 					plannedWorks = "No planned works on route.";
-					// console.log(disruptions);
-					// console.log(plannedWorks);
 				} else {
 					disruptions = tflData.journeys[0].legs[0].disruptions[0].description;
 					plannedWorks = tflData.journeys[0].legs[0].plannedWorks;
 				}
+
 				console.log(disruptions);
 				console.log(plannedWorks);
 
@@ -282,7 +284,7 @@ app.post("/contact-us", (req, res) => {
 	const message = req.body.message;
 	var mailChimp = 0;
 
-	// MAILTRAP DETAILS IN TRANSPORTER OBJECT FROM NODEMAILER
+	// CREATE TRANSPORTER OBJECT FROM NODEMAILER TO BE SENT TO MAILTRAP
 	const transporter = nodemailer.createTransport({
 		host: "sandbox.smtp.mailtrap.io",
 		port: 2525,
@@ -292,7 +294,7 @@ app.post("/contact-us", (req, res) => {
 		},
 	});
 
-	// GENERATE THE EMAIL CONTENT
+	// GENERATE THE EMAIL CONTENT FROM USER INPUT
 	const mailOptions = {
 		from: "Website User website.user@yahoo.com",
 		to: "website.user@yahoo.com",
@@ -310,7 +312,6 @@ app.post("/contact-us", (req, res) => {
 	transporter.sendMail(mailOptions, (error, info) => {
 		if (error) {
 			console.log("Error sending email: ", error);
-			// res.status(500).json({ error: "Error sending email" });
 			messageStatus = -1;
 			res.render("contact-us", {
 				messageStatus: messageStatus,
@@ -318,7 +319,6 @@ app.post("/contact-us", (req, res) => {
 			});
 		} else {
 			console.log("Email sent: ", info.response);
-			// res.json({ success: true });
 			messageStatus = 1;
 			res.render("contact-us", {
 				messageStatus: messageStatus,
@@ -328,6 +328,45 @@ app.post("/contact-us", (req, res) => {
 		console.log("Message Status: ", messageStatus);
 	});
 });
+
+// CREATE CONVERT TO PDF AND DOWNLOAD FUNCTION
+async function convertToPDF(req, res) {
+	const webpageURL = "http://localhost:3000/transport-details";
+	const outputPDFFileName = "journey-itinerary.pdf";
+
+	try {
+		const browser = await puppeteer.launch({ headless: "new" });
+		const page = await browser.newPage();
+
+		await page.goto(webpageURL, { waitUntil: "networkidle0" });
+
+		// TAKE A SCREENSHOT
+		const screenshotPath = "screenshot.png";
+		await page.screenshot({ path: screenshotPath, fullPage: true });
+
+		// ADJUST PAGE SIZE TO FIT THE WHOLE CONTENT
+		const pdfBuffer = await page.pdf({
+			path: screenshotPath,
+			format: "A4",
+			printBackground: true,
+		});
+
+		await browser.close();
+
+		res.set({
+			"Content-Type": "application/pdf",
+			"Content-Disposition": `attachment; filename=${outputPDFFileName}`,
+		});
+
+		res.send(pdfBuffer);
+	} catch (error) {
+		console.error("Error generating PDF:", error);
+		res.status(500).send("Error generating PDF");
+	}
+}
+
+// CREATE CONVERT TO PDF AND DOWNLOAD LINK
+app.get("/convertToPDF", convertToPDF);
 
 // CREATE LOCAL SERVER PORT
 app.listen(PORT, () => {

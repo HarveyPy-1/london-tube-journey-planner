@@ -235,17 +235,29 @@ footer {
 #footer-first-level {
     display: flex;
     justify-content: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
+    margin-right: 20px;
 }
 
-#useful-links {
+#link-and-logo {
+    display: flex;
+    width: 1100px;
+    justify-content: space-around;
+}
+
+/* #footer-logo {
+    padding-right: 150px;
+} */
+*/ #useful-links {
     display: flex;
     flex-direction: column;
+    /* padding-right: 150px; */
 }
 
 #footer-first-level li {
     all: unset;
     display: flex;
+    margin-right: -100px;
 }
 
 #footer-first-level li a {
@@ -401,10 +413,6 @@ td {
 
 /* About us page */
 
-/* .about-us {
-    height: 1800px;
-} */
-
 #hero {
     /* height: 300px;
     width: 100%; */
@@ -436,7 +444,7 @@ td {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 100px;
+    margin-top: 50px;
     margin-bottom: 50px;
     max-width: 1000px;
     height: 350px;
@@ -520,4 +528,158 @@ textarea:focus {
     width: 160px;
     background-color: blue;
     border-radius: 5px;
+}
+
+
+
+/* Responsiveness for smaller screens */
+@media only screen and (max-width: 767px) {
+
+    /* HEADER */
+    /* Adjust the height of the nav bar for smaller screens */
+    #top {
+        height: 100px;
+    }
+
+    /* Reduce padding and font size for smaller screens */
+
+    #nav-bar {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    #nav-bar li {
+        padding-right: 20px;
+    }
+
+    #nav-bar li a {
+        font-size: 16px;
+    }
+
+    #nav-logo {
+        width: 240px;
+    }
+
+    /* FOOTER */
+    #footer-first-level {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    #link-and-logo {
+        display: flex;
+        justify-content: center;
+        justify-content: space-around;
+        width: 0;
+        /* margin: 0;
+        padding: 0; */
+    }
+
+    #footer-logo {
+        height: 80px;
+        margin-right: 30px;
+        margin-top: 30px;
+        margin-left: -40px;
+    }
+
+    #footer-first-level {
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    #subscribe-div {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    /* ABOUT US */
+    #hero {
+        width: 412px;
+    }
+
+    #hero-text {
+        /* padding-top: -50px */
+        font-size: 50px;
+        position: relative;
+        margin-left: 65px;
+        padding-bottom: 40px;
+        /* margin-top: 5px; */
+    }
+
+    .introduction-text h1 {
+        font-size: 40px;
+        margin-top: 30px;
+    }
+
+    #introduction p {
+        font-size: 18px;
+    }
+
+    #about-images {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 900px;
+        justify-content: space-around;
+        padding: none;
+    }
+
+    .mission-text p {
+        font-size: 18px;
+    }
+
+    .mission-text {
+        margin-top: 40px;
+    }
+
+    hr {
+        margin-bottom: 40px;
+        margin-top: 40px;
+    }
+
+    /*Contact Us*/
+
+    .contact-us-form h1 {
+        margin-top: 20px;
+    }
+
+    .contact-us-form input {
+        width: 400px;
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .contact-us-form textarea {
+        width: 400px;
+    }
+
+    #send-message-button {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .info-text {
+        position: relative;
+        margin-left: -20px;
+    }
+
+    /* RESULTS TABLE */
+    table {
+        width: 350px;
+        margin-left: 10px;
+    }
+
+    #bottom-buttons {
+        justify-content: space-around;
+    }
+
+    #bottom-buttons button {
+        width: 120px;
+    }
+
+    #line-img {
+        width: 320px;
+    }
 }

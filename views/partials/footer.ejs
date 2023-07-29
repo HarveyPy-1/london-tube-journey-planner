@@ -1,9 +1,10 @@
 <footer class="footer">
 			<div id="footer-first-level">
+				<div id="link-and-logo">
 				<a href="/"><img
 					src="/images/png/logo-no-background.png"
 					alt="logo"
-					height="100" /></a>
+					height="100" id="footer-logo" /></a>
 				<div id="useful-links">
 					<h3>Useful Links</h3>
 					<ul>
@@ -23,6 +24,7 @@
 							<a href="https://tfl.gov.uk/" target="_blank">Tfl website</a>
 						</li>
 					</ul>
+				</div>
 				</div>
 
 				<form id="form" action="/" method="post">
@@ -56,7 +58,9 @@
 						type="email"
 						name="newsEmail"
 						placeholder="Email address" required/>
+						<div id="subscribe-div">
 					<button type="submit" id="subscribe-button">Subscribe</button>
+					</div>
 					<% if (mailChimp === 1) { %>
 						<p style="color: green;"><strong>Subscribed Successfully!</strong></p>
 					<% } else if (mailChimp === -1) { %>

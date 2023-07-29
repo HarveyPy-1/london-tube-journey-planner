@@ -11,6 +11,7 @@
 	</head>
 	<div class="contact-us-form">
 		<h1>Send us a message!</h1>
+
 		<form action="/contact-us" method="post">
 			<input
 				type="text"
@@ -38,23 +39,31 @@
 				name="message"
 				placeholder="Enter your message here..."></textarea>
 
+                <div id="send-message-button">
 			<button type="submit" class="btn">
 				<i class="fa fa-envelope"></i>Send Message
 			</button>
+            </div>
 		</form>
 	</div>
 
 	<% } else if (messageStatus === -1) { %>
 
-	<head id="hero" style="margin-bottom: 100px;">
+	<head id="hero" style="margin-bottom: 100px">
 		<img
 			id="hero-image"
 			src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
 			alt="hero-image" />
-		<div id="hero-text" style="color: red; font-size: 40px;">
+		<div id="hero-text" style="color: red; font-size: 40px" class="info-text">
 			Something went wrong, please try again!
 		</div>
-        <img src="https://media1.giphy.com/media/14pKVNqXY40EVi/giphy.gif?cid=ecf05e47qpgvlflh7rybiu5vy8hbvj798nruunxkzgwy5eb5&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="dog fail gif" width="500" style="margin: 70px 0;">
+		<div style="display: flex; justify-content: center">
+			<img
+				src="https://media1.giphy.com/media/14pKVNqXY40EVi/giphy.gif?cid=ecf05e47qpgvlflh7rybiu5vy8hbvj798nruunxkzgwy5eb5&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+				alt="dog fail gif"
+				width="500"
+				style="margin: 70px 0" />
+		</div>
 	</head>
 
 	<% } else { %>
@@ -64,10 +73,16 @@
 			id="hero-image"
 			src="https://plus.unsplash.com/premium_photo-1682309572625-791e25352998?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1212&q=800"
 			alt="hero-image" />
-		<div id="hero-text" style="font-size: 40px;">
-			Thank you for your contacting us. We'll get back to you shortly!
+		<div id="hero-text" style="font-size: 40px" class="info-text">
+			Thank you for contacting us. We'll get back to you shortly!
 		</div>
-        <img src="https://media2.giphy.com/media/1kkxWqT5nvLXupUTwK/giphy.gif?cid=ecf05e47s1sq3w1rme30fe7eu3tk75ygk3a1aj856rpe7cr7&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="dog fail gif" width="500" style="margin: 70px auto;">
+		<div style="display: flex; justify-content: center">
+			<img
+				src="https://media2.giphy.com/media/1kkxWqT5nvLXupUTwK/giphy.gif?cid=ecf05e47s1sq3w1rme30fe7eu3tk75ygk3a1aj856rpe7cr7&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+				alt="dog fail gif"
+				width="500"
+				style="margin: 70px auto" />
+		</div>
 	</head>
 
 	<% } %>
