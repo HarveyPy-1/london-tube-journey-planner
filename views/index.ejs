@@ -1,48 +1,61 @@
 <%- include("partials/header.ejs") %>
 <main class="main-page">
 	<div id="center-box">
-		<h1>Plan my journey</h1>
-		<div id="box-and-arrow">
-			<div id="all-center-box-contents">
-				<form action="/transport-details" method="post">
-					<input
-						type="text"
-						name="departure"
-						id="searchQuery1"
-						class="searchInput"
-						placeholder="Departing from" />
-					<ul id="suggestions1"></ul>
-					<input
-						type="text"
-						name="destination"
-						id="searchQuery2"
-						class="searchInput"
-						placeholder="Arriving at" />
-					<ul id="suggestions2"></ul>
-					<div id="date-time-selector">
-						<input
-							type="date"
-							name="date"
-							id="dateQuery"
-							placeholder="Date (YYYY/MM/DD)" />
-						<input
-							type="time"
-							name="time"
-							id="timeQuery"
-							placeholder="Time (HH:mm)" />
+		<div class="flip-card-inner">
+			<div class="flip-card-front">
+				<h1>Plan my journey</h1>
+				<div id="box-and-arrow">
+					<div id="all-center-box-contents">
+						<form action="/transport-details" method="post">
+							<input
+								type="text"
+								name="departure"
+								id="searchQuery1"
+								class="searchInput"
+								placeholder="Departing from" />
+							<ul id="suggestions1"></ul>
+							<input
+								type="text"
+								name="destination"
+								id="searchQuery2"
+								class="searchInput"
+								placeholder="Arriving at" />
+							<ul id="suggestions2"></ul>
+							<div id="date-time-selector">
+								<input
+									type="date"
+									name="date"
+									id="dateQuery"
+									placeholder="Date (YYYY/MM/DD)" />
+								<input
+									type="time"
+									name="time"
+									id="timeQuery"
+									placeholder="Time (HH:mm)" />
+							</div>
+							<div id="button-line">
+								<select name="timeOptions" id="timeOptions">
+									<option value="departing">Departing after</option>
+									<option value="arriving">Arriving before</option>
+								</select>
+								<button type="submit" id="check-button">Check trains</button>
+							</div>
+							
+						</form>
 					</div>
-					<div id="button-line">
-						<select name="timeOptions" id="timeOptions">
-							<option value="departing">Departing after</option>
-							<option value="arriving">Arriving before</option>
-						</select>
-						<button type="submit">Check trains</button>
-					</div>
-					<script src="/scripts/dynamic.js"></script>
-				</form>
+					<img
+						src="/images/png/vertical arrow.png"
+						alt="vertical arrow"
+						height="50px" />
+				</div>
 			</div>
-			<img src="/images/png/vertical arrow.png" alt="vertical arrow" height="50px">
+			<div class="flip-card-back">
+				<img src="/images/png/loading.gif" alt="loading image" width=150px" height="150px">
+				<p>Loading...</p>
+
+			</div>
 		</div>
 	</div>
+	<script src="/scripts/dynamic.js"></script>
 </main>
 <%- include("partials/footer.ejs") %>

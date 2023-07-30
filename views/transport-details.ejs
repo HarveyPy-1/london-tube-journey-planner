@@ -58,42 +58,73 @@
 						a++) { %>
 						<ul>
 							<li>
-								Take the <%= allJourneys[0].legs[a].instruction.summary %> for <%= allJourneys[0].legs[a].duration %> minutes.<br><br>
+								Take the <%= allJourneys[0].legs[a].instruction.summary %> for
+								<%= allJourneys[0].legs[a].duration %> minutes.<br /><br />
 								<ul>
-									<li>Platform: <%= allJourneys[0].legs[a].platformName %></li><br>
+									<li>Platform: <%= allJourneys[0].legs[a].platformName %></li>
+									<br />
 									<li>
-										Departs At: <em><%= formatTime(allJourneys[0].legs[a].departureTime) %>hrs</em>
+										Departs At:
+										<em
+											><%= formatTime(allJourneys[0].legs[a].departureTime)
+											%>hrs</em
+										>
 										<ul>
 											<% for (let b = 0; b < allJourneys.length; b++) { %>
-											<li>Also at: <em><%= formatTime(allJourneys[b].legs[a].departureTime) %>hrs</em></li>
+											<li>
+												Also at: <% if (allJourneys[b].legs &&
+												allJourneys[b].legs[a] &&
+												allJourneys[b].legs[a].departureTime) { %>
+												<em
+													><%= formatTime(allJourneys[b].legs[a].departureTime)
+													%>hrs</em
+												>
+												<% } else { %>
+												<em>Not available</em>
+												<% } %>
+											</li>
 											<% } %>
 										</ul>
-									</li><br>
+									</li>
+									<br />
 									<li>
 										Stop Points:
 										<ul>
 											<% for (let c = 0; c <
 											allJourneys[0].legs[a].path.stopPoints.length; c++) { %>
-											<li><em><%= allJourneys[0].legs[a].path.stopPoints[c].name %></em></li>
+											<li>
+												<em
+													><%= allJourneys[0].legs[a].path.stopPoints[c].name
+													%></em
+												>
+											</li>
 											<% } %>
 										</ul>
-									</li><br>
+									</li>
+									<br />
 									<li>
 										Get off at <%=
 										allJourneys[0].legs[a].arrivalPoint.commonName %>
-									</li><br>
+									</li>
+									<br />
 									<li>
-										Change Duration: <em><%=
-										allJourneys[0].legs[a].interChangeDuration %> minutes</em>
-									</li><br>
+										Change Duration:
+										<em
+											><%= allJourneys[0].legs[a].interChangeDuration %>
+											minutes</em
+										>
+									</li>
+									<br />
 									<li>
-										Disruptions (This section only): <em><%=
-										allJourneys[0].legs[a].disruptions %></em>
-									</li><br>
+										Disruptions (This section only):
+										<em><%= allJourneys[0].legs[a].disruptions %></em>
+									</li>
+									<br />
 									<li>
-										Planned Works (This section only): <em><%=
-										allJourneys[0].legs[a].plannedWorks %></em>
-									</li><br>
+										Planned Works (This section only):
+										<em><%= allJourneys[0].legs[a].plannedWorks %></em>
+									</li>
+									<br />
 								</ul>
 							</li>
 						</ul>

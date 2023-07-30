@@ -63,3 +63,12 @@ initializeAutocomplete("searchQuery1", "suggestions1");
 
 // Initialize the second input and suggestions list
 initializeAutocomplete("searchQuery2", "suggestions2");
+
+// IMPLEMENT ANIMATION
+const flipButton = document.getElementById("check-button");
+
+const flipCardInner = document.querySelector(".flip-card-inner");
+
+flipButton.addEventListener("click", () => {
+	flipCardInner.classList.toggle("flipped");
+});
