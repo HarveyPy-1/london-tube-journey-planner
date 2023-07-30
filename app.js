@@ -102,6 +102,20 @@ app.post("/transport-details", (req, res) => {
 	const destination = req.body.destination;
 	const departureDate = req.body.date.replace(/-/g, "");
 
+	// LOGIC journeys[0, 1, 2, length].legs[0].departureTime = first line departure times
+	// LOGIC journeys[0, 1, 2, length].legs[1].departureTime = second line/stop departure times
+	// LOGIC journeys[0, 1, 2, length].legs[2].departureTime = third line/stop departure times, etc
+	// LOGIC journeys[0].legs[0, 1, 2, length].instruction.summary = Step by step instruction to get there
+	// LOGIC journeys[0].legs[0, 1, 2, length].path.stopPoints[0, 1, 2, length].name = Stops during each leg
+	// LOGIC - Get off at journeys[0].legs[0, 1, 2, length].arrivalPoint.commonName
+	// LOGIC journeys[0].legs[0].routeOptions[0].name = Tube line name
+	// LOGIC journeys[0].legs[0].interChangeDuration = number of minutes before next train
+	// LOGIC journeys[0].legs[0, 1, 2, length].arrivalPoint.platformName = Platform name
+	// LOGIC journeys[0].legs[0, 1, 2, length].disruptions = disruptions
+	// LOGIC journeys[0].legs[0, 1, 2, length].plannedWorks = planned works
+
+	// DELETE route
+
 	// CONVERT TIME INTO HH:MM TO DISPLAY ON WEBSITE
 	function formatTime(dateTimeString) {
 		const dateTime = new Date(dateTimeString);
@@ -138,7 +152,7 @@ app.post("/transport-details", (req, res) => {
 		console.log(departureID, destinationID);
 
 		// API ENDPOINT
-		const url = `https://api.tfl.gov.uk/journey/journeyresults/${departureID}/to/${destinationID}?date=${departureDate}&time=${departureTime}&timeIs=${timeArgument}&routeBetweenEntrances=true&app_key=${API_KEY}`;
+		const url = `https://api.tfl.gov.uk/journey/journeyresults/${departureID}/to/${destinationID}?date=${departureDate}&time=${departureTime}&timeIs=${timeArgument}&mode=tube&app_key=${API_KEY}`;
 
 		// MAKE HTTPS REQUEST TO ENDPOINT
 		const request = https.request(url, (response) => {
@@ -160,44 +174,26 @@ app.post("/transport-details", (req, res) => {
 				const ejsDepartureTime = formatTime(tflDepartureTime);
 				const ejsArrivalTime = formatTime(tflArrivalTime);
 
+				const allJourneys = tflData.journeys;
+
 				// TODO1: ROUTE BETWEEN TWO LINES. TELL USER THE ROUTE IF EXISTS
-				const route = tflData.journeys[0].legs[0].instruction.detailed;
-				console.log("Route: ", route);
+				// DONE!
 
 				// TODO2: STOP POINTS
-				const stopPoints = tflData.journeys[0].legs[0].path.stopPoints;
-				// console.log(stopPoints)
+				// DONE!
 
 				//TODO3: DURATION
 				const duration = tflData.journeys[0].duration;
 				console.log("Duration: ", duration);
 
 				// TODO4: DEPARTURE POINT
-				const departurePoint =
-					tflData.journeys[0].legs[0].departurePoint.commonName;
-				console.log("Departure point: ", departurePoint);
+				// DONE!
 
 				// TODO5: ARRIVAL POINT
-				const arrivalPoint =
-					tflData.journeys[0].legs[0].arrivalPoint.commonName;
-				console.log("Arrival point: ", arrivalPoint);
+				// DONE!
 
 				// TODO6: DISRUPTIONS
-				const isDisrupted = tflData.journeys[0].legs[0].isDisrupted;
-				console.log(isDisrupted);
-
-				let disruptions;
-				let plannedWorks;
-				if (isDisrupted === false) {
-					disruptions = "No disruptions on route.";
-					plannedWorks = "No planned works on route.";
-				} else {
-					disruptions = tflData.journeys[0].legs[0].disruptions[0].description;
-					plannedWorks = tflData.journeys[0].legs[0].plannedWorks;
-				}
-
-				console.log(disruptions);
-				console.log(plannedWorks);
+				// DONE!
 
 				//TODO 7: COST
 				const fare = (tflData.journeys[0].fare.totalCost / 100).toFixed(2);
@@ -219,16 +215,12 @@ app.post("/transport-details", (req, res) => {
 						date: ejsDate,
 						departureTime: ejsDepartureTime,
 						arrivalTime: ejsArrivalTime,
-						route: route,
 						duration: duration,
-						departurePoint: departurePoint,
-						arrivalPoint: arrivalPoint,
-						stopPoints: stopPoints,
-						disruptions: disruptions,
-						plannedWorks: plannedWorks,
 						totalFare: fare,
 						currentDate: currentDate,
 						mailChimp: mailChimp,
+						allJourneys: allJourneys,
+            formatTime: formatTime,
 					});
 				} else {
 					res.render("failure", { mailChimp: mailChimp });

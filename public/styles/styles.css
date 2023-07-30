@@ -1,4 +1,4 @@
-/* Header and nav section */
+/* HEADER AND NAV SECTION */
 body {
     font-family: 'Raleway', sans-serif;
     margin: 0;
@@ -8,15 +8,12 @@ body {
 #top {
     display: flex;
     height: 150px;
-    /* padding-top: 0; */
-    /* margin-top: 0; */
     justify-content: space-between;
     background-color: rgb(74, 189, 74);
 }
 
 #nav-bar {
     display: flex;
-    /* height: 100px; */
     background-color: rgb(74, 189, 74);
     justify-content: flex-end;
     color: white;
@@ -39,7 +36,7 @@ body {
     text-decoration: underline;
 }
 
-/* Main body section */
+/* MAIN BODY SECTION */
 .main-page {
     display: flex;
     flex-direction: column;
@@ -49,7 +46,6 @@ body {
     background-repeat: no-repeat;
     height: 600px;
     background-size: cover;
-    /* background-attachment: fixed; */
     color: white;
 }
 
@@ -66,7 +62,6 @@ form {
     border-radius: 10px;
     border-top: 50px solid grey;
     margin-top: 0px;
-    /* box-shadow: 10px 10px rgba(0, 0, 0, 0.2) */
 }
 
 h1 {
@@ -112,11 +107,6 @@ select:hover {
     cursor: pointer;
 }
 
-/* input[name="departure"] {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-} */
-
 #date-time-selector {
     display: flex;
     justify-content: center;
@@ -141,17 +131,6 @@ input[type="time"] {
     justify-content: center;
     justify-content: space-between;
 }
-
-
-
-/* #date-time-selector input::placeholder {
-    font-size: 15px;
-} */
-
-/* input[name="destination"] {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-} */
 
 button {
     background-color: rgb(74, 189, 74);
@@ -178,14 +157,13 @@ button:hover {
     margin-top: 25px;
 }
 
-/* Style for suggestions list */
+/* STYLE FOR SUGGESTION LIST 1 */
 #suggestions1 {
     list-style: none;
     padding: 0;
     margin-top: 40px;
     position: absolute;
     background-color: #f1f1f1;
-    /* border: 1px solid #ccc; */
     width: 300px;
     max-height: 200px;
     overflow-y: auto;
@@ -202,14 +180,13 @@ button:hover {
     background-color: #ddd;
 }
 
-/* Style for suggestions list 2*/
+/* STYLE FOR SUGGESTIONS LIST 2*/
 #suggestions2 {
     list-style: none;
     padding: 0;
     margin-top: 100px;
     position: absolute;
     background-color: #f1f1f1;
-    /* border: 1px solid #ccc; */
     width: 300px;
     max-height: 200px;
     overflow-y: auto;
@@ -226,7 +203,7 @@ button:hover {
     background-color: #ddd;
 }
 
-/* Style for footer */
+/* STYLES FOR FOOTER */
 
 footer {
     background-color: rgb(218, 215, 215);
@@ -245,13 +222,10 @@ footer {
     justify-content: space-around;
 }
 
-/* #footer-logo {
-    padding-right: 150px;
-} */
+
 */ #useful-links {
     display: flex;
     flex-direction: column;
-    /* padding-right: 150px; */
 }
 
 #footer-first-level li {
@@ -296,14 +270,13 @@ footer {
     align-items: center;
 }
 
-/* Transport details page */
+/* JOURNEY DETAILS PAGE */
 
 #results-page {
     margin-top: 70px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* height: 1200px; */
 }
 
 #line-img {
@@ -318,7 +291,6 @@ footer {
 
 #results-top {
     display: flex;
-    /* align-items: center; */
     justify-content: space-evenly;
     width: 100%;
     margin-bottom: none;
@@ -328,19 +300,11 @@ footer {
     width: 250px;
 }
 
-/* #departure-station {
-    margin-right: 50px;
-}
-
-#arrival-station {
-    margin-left: 50px;
-} */
-
 em {
     font-weight: lighter;
 }
 
-/* Style the table */
+/* STYLE FOR THE TABLE */
 table {
     width: 800px;
     border-collapse: collapse;
@@ -352,7 +316,6 @@ table {
 /* Style the table rows */
 tr:nth-child(odd) {
     background-color: rgb(194, 193, 193);
-    /* Light color for odd rows */
 }
 
 tr:nth-child(even) {
@@ -374,6 +337,7 @@ td {
 #bottom-cell {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+    background-color: aqua;
 }
 
 #bottom-buttons {
@@ -411,20 +375,16 @@ td {
     padding-right: 10px;
 }
 
-/* About us page */
+/* ABOUT US PAGE */
 
 #hero {
-    /* height: 300px;
-    width: 100%; */
     position: relative;
     text-align: center;
-    /* color: white; */
 }
 
 #hero-image {
     width: 100%;
     height: 300px;
-    /* position: absolute; */
     object-fit: cover;
     filter: brightness(50%);
 }
@@ -532,16 +492,13 @@ textarea:focus {
 
 
 
-/* Responsiveness for smaller screens */
+/* RESPONSIVE STYLE FOR PHONES */
 @media only screen and (max-width: 767px) {
 
     /* HEADER */
-    /* Adjust the height of the nav bar for smaller screens */
     #top {
         height: 100px;
     }
-
-    /* Reduce padding and font size for smaller screens */
 
     #nav-bar {
         display: flex;
@@ -573,8 +530,6 @@ textarea:focus {
         justify-content: center;
         justify-content: space-around;
         width: 0;
-        /* margin: 0;
-        padding: 0; */
     }
 
     #footer-logo {
@@ -600,12 +555,10 @@ textarea:focus {
     }
 
     #hero-text {
-        /* padding-top: -50px */
         font-size: 50px;
         position: relative;
         margin-left: 65px;
         padding-bottom: 40px;
-        /* margin-top: 5px; */
     }
 
     .introduction-text h1 {
@@ -639,7 +592,7 @@ textarea:focus {
         margin-top: 40px;
     }
 
-    /*Contact Us*/
+    /* CONTACT US */
 
     .contact-us-form h1 {
         margin-top: 20px;

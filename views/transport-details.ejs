@@ -53,46 +53,51 @@
 			</tr>
 			<tr>
 				<td>
-					<h3>Route:&nbsp;&nbsp;&nbsp;&nbsp; <em><%= route %></em></h3>
-				</td>
-			</tr>
-			<tr>
-				<td>
 					<h3>
-						Departure Point:&nbsp;&nbsp;&nbsp;&nbsp;
-						<em><%= departurePoint%></em>
-					</h3>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<h3>
-						Arrival Point:&nbsp;&nbsp;&nbsp;&nbsp; <em><%= arrivalPoint %></em>
-					</h3>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<h3>
-						Stop Points: <% for (let x = 0; x < stopPoints.length; x++) { %>
+						Journey Details: <% for (let a = 0; a < allJourneys[0].legs.length;
+						a++) { %>
 						<ul>
-							<li><%= stopPoints[x].name %></li>
+							<li>
+								Take the <%= allJourneys[0].legs[a].instruction.summary %> for <%= allJourneys[0].legs[a].duration %> minutes.<br><br>
+								<ul>
+									<li>Platform: <%= allJourneys[0].legs[a].platformName %></li><br>
+									<li>
+										Departs At: <em><%= formatTime(allJourneys[0].legs[a].departureTime) %>hrs</em>
+										<ul>
+											<% for (let b = 0; b < allJourneys.length; b++) { %>
+											<li>Also at: <em><%= formatTime(allJourneys[b].legs[a].departureTime) %>hrs</em></li>
+											<% } %>
+										</ul>
+									</li><br>
+									<li>
+										Stop Points:
+										<ul>
+											<% for (let c = 0; c <
+											allJourneys[0].legs[a].path.stopPoints.length; c++) { %>
+											<li><em><%= allJourneys[0].legs[a].path.stopPoints[c].name %></em></li>
+											<% } %>
+										</ul>
+									</li><br>
+									<li>
+										Get off at <%=
+										allJourneys[0].legs[a].arrivalPoint.commonName %>
+									</li><br>
+									<li>
+										Change Duration: <em><%=
+										allJourneys[0].legs[a].interChangeDuration %> minutes</em>
+									</li><br>
+									<li>
+										Disruptions (This section only): <em><%=
+										allJourneys[0].legs[a].disruptions %></em>
+									</li><br>
+									<li>
+										Planned Works (This section only): <em><%=
+										allJourneys[0].legs[a].plannedWorks %></em>
+									</li><br>
+								</ul>
+							</li>
 						</ul>
 						<% } %>
-					</h3>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<h3>
-						Disruptions:&nbsp;&nbsp;&nbsp;&nbsp; <em><%= disruptions%></em>
-					</h3>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<h3>
-						Planned works:&nbsp;&nbsp;&nbsp;&nbsp; <em><%= plannedWorks%></em>
 					</h3>
 				</td>
 			</tr>
