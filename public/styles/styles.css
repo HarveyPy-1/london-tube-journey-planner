@@ -257,7 +257,7 @@ footer {
 }
 
 
-*/ #useful-links {
+#useful-links {
     display: flex;
     flex-direction: column;
 }
