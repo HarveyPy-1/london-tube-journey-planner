@@ -149,31 +149,33 @@
 		</button>
 	</div>
 </main>
+//
 <script>
-	// Add click event listener to the button
-	document.getElementById("convertBtn").addEventListener("click", async () => {
-		try {
-			// Send an HTTP GET request to the server route to trigger PDF conversion and download
-			const response = await fetch("/convertToPDF");
-			if (response.ok) {
-				//Convert the response to a blob and create a temporary URL to download the PDF
-				const pdfBlob = await response.blob();
-				const pdfURL = URL.createObjectURL(pdfBlob);
+	// 	// Add click event listener to the button
+	// 	document.getElementById("convertBtn").addEventListener("click", async () => {
+	// 		try {
+	// 			// Send an HTTP GET request to the server route to trigger PDF conversion and download
+	// 			const response = await fetch("/convertToPDF");
+	// 			if (response.ok) {
+	// 				//Convert the response to a blob and create a temporary URL to download the PDF
+	// 				const pdfBlob = await response.blob();
+	// 				const pdfURL = URL.createObjectURL(pdfBlob);
 
-				// Create a temporary anchor element to trigger the download
-				const downloadLink = document.createElement("a");
-				downloadLink.href = pdfURL;
-				downloadLink.download = "journey-itinerary.pdf";
-				downloadLink.click();
+	// 				// Create a temporary anchor element to trigger the download
+	// 				const downloadLink = document.createElement("a");
+	// 				downloadLink.href = pdfURL;
+	// 				downloadLink.download = "journey-itinerary.pdf";
+	// 				downloadLink.click();
 
-				// Clean up the temporary URL
-				URL.revokeObjectURL(pdfURL);
-			} else {
-				console.error("Error:", response.status, response.statusText);
-			}
-		} catch (error) {
-			console.error("Error:", error);
-		}
-	});
+	// 				// Clean up the temporary URL
+	// 				URL.revokeObjectURL(pdfURL);
+	// 			} else {
+	// 				console.error("Error:", response.status, response.statusText);
+	// 			}
+	// 		} catch (error) {
+	// 			console.error("Error:", error);
+	// 		}
+	// 	});
+	//
 </script>
 <%- include("partials/footer.ejs") %>

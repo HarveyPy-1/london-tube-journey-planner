@@ -3,7 +3,7 @@ const express = require("express");
 const https = require("https");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
-const puppeteer = require("puppeteer");
+// const puppeteer = require("puppeteer");
 
 //IMPORT CONVERTED FILE(TO OBJECT) FROM (FILECONVERSION.JS)
 const { readJsonFile } = require("./fileConversion.js");
@@ -322,91 +322,46 @@ app.post("/contact-us", (req, res) => {
 });
 
 // CREATE CONVERT TO PDF AND DOWNLOAD FUNCTION
-async function convertToPDF(req, res) {
-	const webpageURL = "http://localhost:3000/transport-details";
-	const outputPDFFileName = "journey-itinerary.pdf";
+// async function convertToPDF(req, res) {
+// 	const webpageURL = "http://localhost:3000/transport-details";
+// 	const outputPDFFileName = "journey-itinerary.pdf";
 
-	try {
-		const browser = await puppeteer.launch({ headless: "new" });
-		const page = await browser.newPage();
+// 	try {
+// 		const browser = await puppeteer.launch({ headless: "new" });
+// 		const page = await browser.newPage();
 
-		await page.goto(webpageURL, { waitUntil: "networkidle0" });
+// 		await page.goto(webpageURL, { waitUntil: "networkidle0" });
 
-		// TAKE A SCREENSHOT
-		const screenshotPath = "screenshot.png";
-		await page.screenshot({ path: screenshotPath, fullPage: true });
+// 		// TAKE A SCREENSHOT
+// 		const screenshotPath = "screenshot.png";
+// 		await page.screenshot({ path: screenshotPath, fullPage: true });
 
-		// ADJUST PAGE SIZE TO FIT THE WHOLE CONTENT
-		const pdfBuffer = await page.pdf({
-			path: screenshotPath,
-			format: "A4",
-			printBackground: true,
-		});
+// 		// ADJUST PAGE SIZE TO FIT THE WHOLE CONTENT
+// 		const pdfBuffer = await page.pdf({
+// 			path: screenshotPath,
+// 			format: "A4",
+// 			printBackground: true,
+// 		});
 
-		await browser.close();
+// 		await browser.close();
 
-		res.set({
-			"Content-Type": "application/pdf",
-			"Content-Disposition": `attachment; filename=${outputPDFFileName}`,
-		});
+// 		res.set({
+// 			"Content-Type": "application/pdf",
+// 			"Content-Disposition": `attachment; filename=${outputPDFFileName}`,
+// 		});
 
-		res.send(pdfBuffer);
-	} catch (error) {
-		console.error("Error generating PDF:", error);
-		res.status(500).send("Error generating PDF");
-	}
-}
+// 		res.send(pdfBuffer);
+// 	} catch (error) {
+// 		console.error("Error generating PDF:", error);
+// 		res.status(500).send("Error generating PDF");
+// 	}
+// }
 
-// CREATE CONVERT TO PDF AND DOWNLOAD LINK
-app.get("/convertToPDF", convertToPDF);
+// // CREATE CONVERT TO PDF AND DOWNLOAD LINK
+// app.get("/convertToPDF", convertToPDF);
 
 // CREATE LOCAL SERVER PORT
 app.listen(PORT, () => {
 	console.log(`Server started on port ${PORT}...`);
 });
 
-/*
-PERSONAL HINT: Fresh page with a consistent design that lists all these parameters in a concise clean manner.
-
-- TODO 1: Check if there's a route between the two destinations, if there is, tell the user there is a line, if so which line will take them directly from A to B.
-
-
-TODO 2: Make a key with a colour for each train line.
-When the user has selected a journey, display their journey with a line from one station to the next in the colour of that line.
-
-
-TODO 3: If it is a non direct route, show the user the changes to make and depict this on the graphics as well.
-
-
-TODO 4: Assume travel time from one station to the other in the same zone is 4 minutes. 
-Assume traveling up or down one zone will take an additional 3 minutes.
-Provide total time for journey, as well as individual journey travel time.
-
-
-TODO 5: - The cost of traveling from one zone to the same zone is £4.23.
-- To travel to a zone in a higher number (i.e. from 1 -> 2) costs an additional 15p.
-- To travel to a zone with a lower number (i.e. from 4 -> 3) costs an addition 17p.
-The cost of travelling between zones **only** applies to the start and end station, **not** any changes in between.
-Calculate how expensive the user's journey will be and display the cost to the user.
-
-TODO 6: Add any more complexities you think you might like.
-
-
-
-
-let url = "https://api.tfl.gov.uk/journey/journeyresults/1000008/to/1000107";
-const options = {
-  method: "GET",
-  headers: {
-    "Cache-Control": "no-cache",
-  },
-};
-
-const response = fetch(url, options)
-  .then((res) => res.json())
-  .then((obj) => {
-    console.log("output", obj);
-    const journey = obj.journeys[0].legs[0].path.stopPoints;
-    console.log("stopPoints", journey);
-  });
-*/
