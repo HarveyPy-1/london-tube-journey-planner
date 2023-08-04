@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 
 //IMPORT CONVERTED FILE(TO OBJECT) FROM (FILECONVERSION.JS)
 const { readJsonFile } = require("./fileConversion.js");
+const { request } = require("http");
 
 // FUNCTION TO MAKE SURE THE JSON FILE IS READ BEFORE CONTINUING
 async function startApp() {
@@ -96,159 +97,155 @@ app.get("/failure", (req, res) => {
 });
 
 // PAGE TO DISPLAY JOURNEY ITINERARY
-app.post("/transport-details", (req, res) => {
-	// GET DEPARTURE AND DESTINATION VALUES FROM EJS FILE
-	const departure = req.body.departure;
-	const destination = req.body.destination;
-	const departureDate = req.body.date.replace(/-/g, "");
+app.post("/transport-details", async (req, res) => {
+	try {
+		// GET DEPARTURE AND DESTINATION VALUES FROM EJS FILE
+		const departure = req.body.departure;
+		const destination = req.body.destination;
+		const departureDate = req.body.date.replace(/-/g, "");
 
-	// LOGIC journeys[0, 1, 2, length].legs[0].departureTime = first line departure times
-	// LOGIC journeys[0, 1, 2, length].legs[1].departureTime = second line/stop departure times
-	// LOGIC journeys[0, 1, 2, length].legs[2].departureTime = third line/stop departure times, etc
-	// LOGIC journeys[0].legs[0, 1, 2, length].instruction.summary = Step by step instruction to get there
-	// LOGIC journeys[0].legs[0, 1, 2, length].path.stopPoints[0, 1, 2, length].name = Stops during each leg
-	// LOGIC - Get off at journeys[0].legs[0, 1, 2, length].arrivalPoint.commonName
-	// LOGIC journeys[0].legs[0].routeOptions[0].name = Tube line name
-	// LOGIC journeys[0].legs[0].interChangeDuration = number of minutes before next train
-	// LOGIC journeys[0].legs[0, 1, 2, length].arrivalPoint.platformName = Platform name
-	// LOGIC journeys[0].legs[0, 1, 2, length].disruptions = disruptions
-	// LOGIC journeys[0].legs[0, 1, 2, length].plannedWorks = planned works
-
-	// DELETE route
-
-	// CONVERT TIME INTO HH:MM TO DISPLAY ON WEBSITE
-	function formatTime(dateTimeString) {
-		const dateTime = new Date(dateTimeString);
-		const hours = dateTime.getHours();
-		const minutes = dateTime.getMinutes();
-		const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-			.toString()
-			.padStart(2, "0")}`;
-		return formattedTime;
-	}
-
-	// FORMAT TIME INTO HHMM FOR USE IN API ENDPOINT
-	function convertTimeToHHmm(timeString) {
-		const [hours, minutes] = timeString.split(":");
-		return hours + minutes;
-	}
-
-	const departureTime = convertTimeToHHmm(req.body.time);
-	const ejsDate = req.body.date;
-	const timeArgument = req.body.timeOptions;
-
-	console.log("Departure Date: ", departureDate);
-	console.log("Departure Time: ", departureTime);
-	console.log("Departing or Arriving: ", timeArgument);
-
-	// START FUNCTION TO LOAD JSONDATA FILE
-	startApp().then((jsonData) => {
-		// console.log(jsonData);
-
-		// GET NAPTANID VARIABLES FROM USER INPUT
-		const departureID = getNaptanIDByCommonName(departure, jsonData);
-		const destinationID = getNaptanIDByCommonName(destination, jsonData);
-
-		console.log(departureID, destinationID);
-
-		// API ENDPOINT
-		const url = `https://api.tfl.gov.uk/journey/journeyresults/${departureID}/to/${destinationID}?date=${departureDate}&time=${departureTime}&timeIs=${timeArgument}&mode=tube&app_key=${API_KEY}`;
-
-		// MAKE HTTPS REQUEST TO ENDPOINT
-		const request = https.request(url, (response) => {
-			console.log(response.statusCode);
-
-			let responseData = "";
-
-			response.on("data", (chunk) => {
-				responseData += chunk;
-			});
-
-			response.on("end", () => {
-				const tflData = JSON.parse(responseData);
-				console.log(tflData);
-
-				// GET REQUIRED DATA FROM THE TFLDATA AND ASSIGN TO VARIABLES
-				let tflDepartureTime = tflData.journeys[0].startDateTime;
-				let tflArrivalTime = tflData.journeys[0].arrivalDateTime;
-				const ejsDepartureTime = formatTime(tflDepartureTime);
-				const ejsArrivalTime = formatTime(tflArrivalTime);
-
-				const allJourneys = tflData.journeys;
-
-				// TODO1: ROUTE BETWEEN TWO LINES. TELL USER THE ROUTE IF EXISTS
-				// DONE!
-
-				// TODO2: STOP POINTS
-				// DONE!
-
-				//TODO3: DURATION
-				const duration = tflData.journeys[0].duration;
-				console.log("Duration: ", duration);
-
-				// TODO4: DEPARTURE POINT
-				// DONE!
-
-				// TODO5: ARRIVAL POINT
-				// DONE!
-
-				// TODO6: DISRUPTIONS
-				// DONE!
-
-				//TODO 7: COST
-				const fare = (tflData.journeys[0].fare.totalCost / 100).toFixed(2);
-
-				console.log("Fare: ", fare);
-
-				// TODO 8: DEPARTURE TIME
-				// Create input for departure time and date in the format: yyyymmdd and HHmm.
-
-				// TODO 9: TODAY'S DATE
-				const currentDate = new Date();
-				var mailChimp = 0;
-
-				// LOGIC FOR PAGE RESPONSE REDIRECTION
-				if (response.statusCode === 200) {
-					res.render("transport-details", {
-						departure: departure,
-						destination: destination,
-						date: ejsDate,
-						departureTime: ejsDepartureTime,
-						arrivalTime: ejsArrivalTime,
-						duration: duration,
-						totalFare: fare,
-						currentDate: currentDate,
-						mailChimp: mailChimp,
-						allJourneys: allJourneys,
-            formatTime: formatTime,
-					});
-				} else {
-					res.render("failure", { mailChimp: mailChimp });
-				}
-			});
-		});
-
-		// HANDLE ERROR
-		request.on("error", (error) => {
-			console.error("Error in API request", error);
-			res.render("failure", { mailChimp: mailChimp });
-		});
-
-		request.end();
-	});
-
-	// FUNCTION TO GET NAPTANID BASED ON USER INPUT
-	function getNaptanIDByCommonName(commonName, jsonData) {
-		const matchingObject = jsonData.find(
-			(item) => item.commonName.toLowerCase() === commonName.toLowerCase()
-		);
-
-		if (matchingObject) {
-			return matchingObject.naptanID;
-		} else {
-			return null;
+		// CONVERT TIME INTO HH:MM TO DISPLAY ON WEBSITE
+		function formatTime(dateTimeString) {
+			const dateTime = new Date(dateTimeString);
+			const hours = dateTime.getHours();
+			const minutes = dateTime.getMinutes();
+			const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+				.toString()
+				.padStart(2, "0")}`;
+			return formattedTime;
 		}
+
+		// FORMAT TIME INTO HHMM FOR USE IN API ENDPOINT
+		function convertTimeToHHmm(timeString) {
+			const [hours, minutes] = timeString.split(":");
+			return hours + minutes;
+		}
+
+		const departureTime = convertTimeToHHmm(req.body.time);
+		const ejsDate = req.body.date;
+		const timeArgument = req.body.timeOptions;
+
+		console.log("Departure Date: ", departureDate);
+		console.log("Departure Time: ", departureTime);
+		console.log("Departing or Arriving: ", timeArgument);
+
+		// START FUNCTION TO LOAD JSONDATA FILE
+		startApp().then((jsonData) => {
+			// console.log(jsonData);
+
+			// GET NAPTANID VARIABLES FROM USER INPUT
+			const departureID = getNaptanIDByCommonName(departure, jsonData);
+			const destinationID = getNaptanIDByCommonName(destination, jsonData);
+
+			console.log(departureID, destinationID);
+
+			// API ENDPOINT
+			const url = `https://api.tfl.gov.uk/journey/journeyresults/${departureID}/to/${destinationID}?date=${departureDate}&time=${departureTime}&timeIs=${timeArgument}&app_key=${API_KEY}`;
+
+			// MAKE HTTPS REQUEST TO ENDPOINT
+			const request = https.request(url, (response) => {
+				console.log(response.statusCode);
+
+				let responseData = "";
+
+				response.on("data", (chunk) => {
+					responseData += chunk;
+				});
+
+				response.on("end", () => {
+					try {
+						const tflData = JSON.parse(responseData);
+						console.log(tflData);
+
+						// GET REQUIRED DATA FROM THE TFLDATA AND ASSIGN TO VARIABLES
+						let tflDepartureTime = tflData.journeys[0].startDateTime;
+						let tflArrivalTime = tflData.journeys[0].arrivalDateTime;
+						const ejsDepartureTime = formatTime(tflDepartureTime);
+						const ejsArrivalTime = formatTime(tflArrivalTime);
+
+						// VARIABLE TO RULE THEM ALL
+						const allJourneys = tflData.journeys;
+
+						//TODO3: DURATION
+						const duration = tflData.journeys[0].duration;
+						console.log("Duration: ", duration);
+
+						// COST
+						let fare;
+						if (
+							tflData.journeys[0] &&
+							tflData.journeys[0].fare &&
+							tflData.journeys[0].fare.totalCost
+						) {
+							fare = (tflData.journeys[0].fare.totalCost / 100).toFixed(2);
+						} else {
+							fare = NaN;
+						}
+
+						console.log("Fare: ", fare);
+
+						// CURRENT DATE FOR FOOTER
+						const currentDate = new Date();
+						var mailChimp = 0;
+
+						// LOGIC FOR PAGE RESPONSE REDIRECTION
+						if (response.statusCode === 200) {
+							res.render("transport-details", {
+								departure: departure,
+								destination: destination,
+								date: ejsDate,
+								departureTime: ejsDepartureTime,
+								arrivalTime: ejsArrivalTime,
+								duration: duration,
+								totalFare: fare,
+								currentDate: currentDate,
+								mailChimp: mailChimp,
+								allJourneys: allJourneys,
+								formatTime: formatTime,
+							});
+							console.log(req.method);
+						}
+						// HANDLE ERROR IS JSON DATA IS NOT READ OR LOADED
+					} catch (error) {
+						var mailChimp = 0;
+						console.error("Error:", error);
+						res.render("failure", { mailChimp: mailChimp });
+					}
+				});
+			});
+			// HANDLE ERROR
+			request.on("error", (error) => {
+				var mailChimp = 0;
+				console.error("Error:", error);
+				res.render("failure", { mailChimp: mailChimp });
+			});
+			request.end();
+		});
+		// HANDLE ERRORS ARISING FROM THE API CALL
+	} catch (error) {
+		var mailChimp = 0;
+		console.error("Error:", error);
+		res.render("failure", { mailChimp: mailChimp });
 	}
+});
+
+// FUNCTION TO GET NAPTANID BASED ON USER INPUT
+function getNaptanIDByCommonName(commonName, jsonData) {
+	const matchingObject = jsonData.find(
+		(item) => item.commonName.toLowerCase() === commonName.toLowerCase()
+	);
+
+	if (matchingObject) {
+		return matchingObject.naptanID;
+	} else {
+		return null;
+	}
+}
+
+// CREATE GET ROUTE FOR 'TRANSPORT DETAILS' WHICH JUST REDIRECTS TO  HOMEPAGE(USED RENDER SO I CAN PASS VARIABLES AS RES.REDIRECT DOES NOT SUPPORT IT)
+app.get("/transport-details", (req, res) => {
+	var mailChimp = 0;
+	res.render("index", { mailChimp: mailChimp });
 });
 
 // CREATE 'ABOUT US' ROUTE
@@ -269,7 +266,7 @@ app.get("/contact-us", (req, res) => {
 
 // CREATE 'CONTACT US' ROUTE (POST) TO SEND EMAILS
 app.post("/contact-us", (req, res) => {
-	// GET VARIABLES FROM FORM
+	// GET USER VARIABLES FROM FORM
 	const firstName = req.body.firstName;
 	const lastName = req.body.lastName;
 	const email = req.body.email;
@@ -360,8 +357,7 @@ app.post("/contact-us", (req, res) => {
 // // CREATE CONVERT TO PDF AND DOWNLOAD LINK
 // app.get("/convertToPDF", convertToPDF);
 
-// CREATE LOCAL SERVER PORT
+// CREATE AND START LOCAL SERVER ON SPECIFIED PORT
 app.listen(PORT, () => {
 	console.log(`Server started on port ${PORT}...`);
 });
-

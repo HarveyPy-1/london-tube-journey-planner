@@ -108,21 +108,30 @@
 									</li>
 									<br />
 									<li>
-										Change Duration:
+										<% if (a === allJourneys[0].legs.length - 1) { %> Change
+										Duration:
+										<em>None. No changes.</em>
+										<% } else { %> Change Duration:
 										<em
-											><%= allJourneys[0].legs[a].interChangeDuration %>
-											minutes</em
+											><%= allJourneys[0].legs[a].interChangeDuration %> minutes
+											to get to the next train.</em
 										>
+										<% } %>
 									</li>
 									<br />
 									<li>
-										Disruptions (This section only):
-										<em><%= allJourneys[0].legs[a].disruptions %></em>
-									</li>
-									<br />
-									<li>
-										Planned Works (This section only):
-										<em><%= allJourneys[0].legs[a].plannedWorks %></em>
+										<% if (allJourneys[0].legs[a].isDisrupted) { %> Disruptions
+										(This section only):<br><br> Category -
+										<em
+											><%= allJourneys[0].legs[a].disruptions[0].category %></em
+										><br><br> Description -
+										<em
+											><%= allJourneys[0].legs[a].disruptions[0].description
+											%></em
+										>
+										<% } else {%> Disruptions (This section only):
+										<em>No disruptions</em>
+										<% } %>
 									</li>
 									<br />
 								</ul>
@@ -149,9 +158,8 @@
 		</button>
 	</div>
 </main>
-//
 <script>
-	// 	// Add click event listener to the button
+	// Add click event listener to the button
 	// 	document.getElementById("convertBtn").addEventListener("click", async () => {
 	// 		try {
 	// 			// Send an HTTP GET request to the server route to trigger PDF conversion and download
