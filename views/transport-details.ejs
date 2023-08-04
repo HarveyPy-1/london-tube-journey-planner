@@ -113,17 +113,20 @@
 										<em>None. No changes.</em>
 										<% } else { %> Change Duration:
 										<em
-											><%= allJourneys[0].legs[a].interChangeDuration %> minutes</em
+											><%= allJourneys[0].legs[a].interChangeDuration %>
+											minutes</em
 										>
 										<% } %>
 									</li>
 									<br />
 									<li>
 										<% if (allJourneys[0].legs[a].isDisrupted) { %> Disruptions
-										(This section only):<br><br> Category -
+										(This section only):<br /><br />
+										Category -
 										<em
 											><%= allJourneys[0].legs[a].disruptions[0].category %></em
-										><br><br> Description -
+										><br /><br />
+										Description -
 										<em
 											><%= allJourneys[0].legs[a].disruptions[0].description
 											%></em
@@ -142,7 +145,13 @@
 			</tr>
 			<tr>
 				<td id="bottom-cell">
-					<h3>Amount:&nbsp;&nbsp;&nbsp;&nbsp; <em>£<%= totalFare%></em></h3>
+					<h3>
+						Amount:&nbsp;&nbsp;&nbsp;&nbsp;
+						<em
+							>£<%= totalFare%>&nbsp;(<%= allJourneys[0].fare.fares[0].chargeLevel
+							%>)</em
+						>
+					</h3>
 				</td>
 			</tr>
 		</table>

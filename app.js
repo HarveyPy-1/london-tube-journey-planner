@@ -172,14 +172,17 @@ app.post("/transport-details", async (req, res) => {
 
 						// COST
 						let fare;
+						let peakLevel;
 						if (
 							tflData.journeys[0] &&
 							tflData.journeys[0].fare &&
 							tflData.journeys[0].fare.totalCost
 						) {
 							fare = (tflData.journeys[0].fare.totalCost / 100).toFixed(2);
+							peakLevel = tflData.journeys[0].fare.fares[0].chargeLevel;
 						} else {
 							fare = NaN;
+							peakLevel = Nan;
 						}
 
 						console.log("Fare: ", fare);
@@ -201,6 +204,7 @@ app.post("/transport-details", async (req, res) => {
 								currentDate: currentDate,
 								mailChimp: mailChimp,
 								allJourneys: allJourneys,
+								peakLevel: peakLevel,
 								formatTime: formatTime,
 							});
 							console.log(req.method);
