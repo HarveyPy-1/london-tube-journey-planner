@@ -182,7 +182,7 @@ app.post("/transport-details", async (req, res) => {
 							peakLevel = tflData.journeys[0].fare.fares[0].chargeLevel;
 						} else {
 							fare = NaN;
-							peakLevel = Nan;
+							peakLevel = NaN;
 						}
 
 						console.log("Fare: ", fare);
