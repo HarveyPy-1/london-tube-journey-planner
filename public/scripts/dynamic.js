@@ -75,6 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	flipButton.addEventListener("click", () => {
 		if (form.checkValidity()) {
 			flipCardInner.classList.toggle("flipped");
+		} else {
+			alert("Please make sure all inputs are filled in the right format!")
 		}
 	});
 });
