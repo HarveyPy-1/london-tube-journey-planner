@@ -65,10 +65,16 @@ initializeAutocomplete("searchQuery1", "suggestions1");
 initializeAutocomplete("searchQuery2", "suggestions2");
 
 // IMPLEMENT ANIMATION
-const flipButton = document.getElementById("check-button");
+document.addEventListener("DOMContentLoaded", () => {
+	const form = document.getElementById("journey-form");
 
-const flipCardInner = document.querySelector(".flip-card-inner");
+	const flipButton = document.getElementById("check-button");
 
-flipButton.addEventListener("click", () => {
-	flipCardInner.classList.toggle("flipped");
+	const flipCardInner = document.querySelector(".flip-card-inner");
+
+	flipButton.addEventListener("click", () => {
+		if (form.checkValidity()) {
+			flipCardInner.classList.toggle("flipped");
+		}
+	});
 });

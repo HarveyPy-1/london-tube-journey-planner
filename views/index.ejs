@@ -6,32 +6,36 @@
 				<h1>Plan my journey</h1>
 				<div id="box-and-arrow">
 					<div id="all-center-box-contents">
-						<form action="/transport-details" method="post">
+						<form action="/transport-details" method="post" id="journey-form">
 							<input
 								type="text"
 								name="departure"
 								id="searchQuery1"
 								class="searchInput"
-								placeholder="Departing from" />
+								placeholder="Departing from"
+								required />
 							<ul id="suggestions1"></ul>
 							<input
 								type="text"
 								name="destination"
 								id="searchQuery2"
 								class="searchInput"
-								placeholder="Arriving at" />
+								placeholder="Arriving at"
+								required />
 							<ul id="suggestions2"></ul>
 							<div id="date-time-selector">
 								<input
 									type="date"
 									name="date"
 									id="dateQuery"
-									placeholder="Date (YYYY/MM/DD)" />
+									placeholder="Date (YYYY/MM/DD)"
+									required />
 								<input
 									type="time"
 									name="time"
 									id="timeQuery"
-									placeholder="Time (HH:mm)" />
+									placeholder="Time (HH:mm)"
+									required />
 							</div>
 							<div id="button-line">
 								<select name="timeOptions" id="timeOptions">
@@ -50,7 +54,7 @@
 				</div>
 			</div>
 			<div class="flip-card-back">
-				<img src="/images/png/loading.gif" alt="loading image" width=150px" height="150px">
+				<img src="/images/png/loading.gif" alt="loading image" width="150px" height="150px">
 				<p>Loading...</p>
 
 			</div>
